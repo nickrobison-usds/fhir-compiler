@@ -1,0 +1,4 @@
+(test
+  (name unit)
+  (libraries alcotest core bos yojson lib)
+  (deps (source_tree resources)))
