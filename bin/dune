@@ -1,4 +1,4 @@
 (executable
  (name main)
- (public_name fhir_compiler)
+ (public_name fhirc)
  (libraries core lib))
