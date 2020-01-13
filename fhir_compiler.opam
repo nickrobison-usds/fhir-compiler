@@ -1,0 +1,23 @@
+opam-version: "2.0"
+maintainer: "Nick Robison <nicholas.a.robison@omb.eop.gov>"
+authors: ["Nick Robison <nicholas.a.robison@omb.eop.gov>"]
+homepage: "https://github.com/nickrobison-usds/fhir-compiler"
+doc: "https://github.com/nickrobison-usds/fhir-compiler"
+bug-reports: "https://github.com/nickrobison-usds/fhir-compiler/issues"
+depends: [
+  "ocaml" {> "4.06.0"}
+  "dune" {> "2.1"}
+  "core"
+  "fmt"
+  "yojson"
+  "ppx_deriving_yojson"
+  "alcotest" {with-test}
+  "bos" {with-test}
+]
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+]
+dev-repo: "git+https://github.com/nickrobison-usds/fhir-compiler.git"
+synopsis: "Experimental compiler from FHIR profiles to programming languages"
