@@ -31,7 +31,8 @@ let test_patient_parse () =
   in
  (* Verify simple field generation*)
 let obj = Lib.Structure.to_fhir p in
-Alcotest.(check int) "Should have identical number of fields" 52 (List.length (Lib.Fhir.Resource.fields obj))
+  Alcotest.(check int) "Should have identical number of fields" 51 (List.length (Lib.Fhir.Resource.fields obj))
+
 
 let test_ok () =
   Alcotest.(check string) "same string" "hello" "hello"

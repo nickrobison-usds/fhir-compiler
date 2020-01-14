@@ -15,7 +15,7 @@ module Uri = struct
 end
 
 type typ = {
-  code: Uri.t;
+  code: string;
   profile: Uri.t option [@default None];
   targetProfile: Uri.t option [@default None];
   aggregation: string list [@default []];
@@ -28,15 +28,26 @@ type t = {
   path: string;
   id: string;
   short_description: string option [@key "short"];
-  typ: typ list [@default []] [@key "types"];
+  typ: typ list [@default []] [@key "type"];
 } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
 
 let create hello =
   {path = hello; id = hello; short_description = (Some hello); typ = []}
 
-let to_field t =
+let emit_field t code =
+  let ts = Fhir.Scalar{
+      name = code;
+      emit = fun c -> c;
+    } in
   Fhir.Field {
     name = t.id;
-    output_typ = Fhir.boolean;
+    output_typ = ts;
   }
+
+let to_field t =
+  match List.hd t.typ with
+  | Some code -> Some (emit_field t code.code)
+  | None -> None
+
+

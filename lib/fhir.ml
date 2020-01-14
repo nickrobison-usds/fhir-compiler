@@ -1,5 +1,7 @@
 open! Core
 
+exception UnsupportedType of string
+
 type 'src typ =
   | Scalar of {
       name: string;
@@ -14,23 +16,28 @@ and 'src field = Field : {
     output_typ: 'out typ;
   } -> 'src field
 
-let boolean = Scalar {
+let fhir_boolean = Scalar {
     name = "Boolean";
     emit = fun b -> Bool.to_string b;
   }
 
-let code = Scalar {
+let fhir_code = Scalar {
     name = "Code";
     emit = fun c -> c;
   }
 
-let date = Scalar {
+let fhir_date = Scalar {
     name = "Date";
     emit = fun d -> Date.to_string_iso8601_basic d
   }
 
 type packed = Packed: 'src field -> packed
+  type packed_type = PackedType: 'src typ -> packed_type
 
+let typ_of_string = function
+  | "Date" -> PackedType fhir_date
+  | "Boolean" -> PackedType fhir_boolean
+  | e -> raise (UnsupportedType e)
 
 module Resource = struct
   type t = {

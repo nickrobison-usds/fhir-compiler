@@ -23,6 +23,9 @@ let elements t =
 
 let to_fhir t =
   let name = typ t in
-  let fields = List.map (elements t) ~f:(fun e ->
-      Fhir.Packed(Element.to_field e)) in
+  let fields = List.filter_map (elements t) ~f:(fun e ->
+      match (Element.to_field e) with
+      | Some e ->  Some (Fhir.Packed e)
+      | None -> None
+      ) in
   Fhir.Resource.make name fields
