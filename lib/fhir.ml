@@ -28,3 +28,7 @@ let date = Scalar {
     name = "Date";
     emit = fun d -> Date.to_string_iso8601_basic d
   }
+
+let get_fields: 'src. 'src typ  -> 'src field list = function
+  | Object o -> o.fields
+  | Scalar _ -> []

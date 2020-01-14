@@ -30,7 +30,11 @@ let test_patient_parse () =
     | Error e -> fail (unwrap_msg e)
   in
   Alcotest.(check string) "Should be a structure def" "StructureDefinition" (Lib.Structure.typ p);
-  Alcotest.(check int) "Should have the correct number of elements" 52 (List.length (Lib.Structure.elements p))
+  Alcotest.(check int) "Should have the correct number of elements" 52 (List.length (Lib.Structure.elements p));
+
+ (* Verify simple field generation*)
+let obj = Lib.Structure.to_fhir p in
+Alcotest.(check int) "Should have identical number of fields" 52 (List.length (Lib.Fhir.get_fields obj))
 
 let test_ok () =
   Alcotest.(check string) "same string" "hello" "hello"
