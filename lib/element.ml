@@ -36,7 +36,7 @@ let create hello =
   {path = hello; id = hello; short_description = (Some hello); typ = []}
 
 let to_field t =
-  Some (Fhir.Field {
+  Fhir.Field {
     name = t.id;
     output_typ = Fhir.boolean;
-  })
+  }

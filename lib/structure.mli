@@ -9,4 +9,4 @@ val typ: t -> string
 
 val elements: t -> Element.t list
 
-val to_fhir: t -> 'a Fhir.typ
+val to_fhir: t -> Fhir.Resource.t

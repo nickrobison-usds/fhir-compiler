@@ -23,8 +23,6 @@ let elements t =
 
 let to_fhir t =
   let name = typ t in
-  let fields = List.filter_map (elements t) ~f:Element.to_field in
-  Fhir.Object {
-    name = name;
-    fields = fields
-  }
+  let fields = List.map (elements t) ~f:(fun e ->
+      Fhir.Packed(Element.to_field e)) in
+  Fhir.Resource.make name fields
