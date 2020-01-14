@@ -1,11 +1,42 @@
 open! Core
 
+(*exception JsonConversionException of string*)
+
+(*module Uri = struct
+  include Uri
+
+  let yojson_of_t t =
+    `String (Uri.to_string t)
+
+  let t_of_yojson json =
+    match json with
+    | `String s -> Uri.of_string s
+    | _ -> raise (JsonConversionException "Cannot convert")
+
+end*)
+
+(*type typ = {
+  code: Uri.t;
+  profile: Uri.t option;
+  targetProfile: Uri.t option;
+  aggregation: string list;
+  versioning: string option;
+} [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
+*)
+
 
 type t = {
   path: string;
   id: string;
   short_description: string option [@key "short"];
-} [@@deriving yojson {strict = false}, show, eq]
+} [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
+
 
 let create hello =
   {path = hello; id = hello; short_description = (Some hello)}
+
+let to_field t =
+  Some (Fhir.Field {
+    name = t.id;
+    output_typ = Fhir.boolean;
+  })

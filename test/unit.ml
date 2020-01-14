@@ -22,7 +22,7 @@ let t = Alcotest.(result structTest error)
 let test_patient_parse () =
   let f = (dir file) in
   let name = Fpath.to_string f in
-  let patient = Reader.read f Lib.Structure.of_yojson in
+  let patient = Reader.read f Lib.Structure.t_of_yojson in
   (* Test that it is a structure definition*)
   test_case t name patient;
   let p = match patient with

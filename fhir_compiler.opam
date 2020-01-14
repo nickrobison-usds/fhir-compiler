@@ -10,7 +10,8 @@ depends: [
   "core"
   "fmt"
   "yojson"
-  "ppx_deriving_yojson"
+  "ppx_yojson_conv"
+  "uri"
   "alcotest" {with-test}
   "bos" {with-test}
 ]

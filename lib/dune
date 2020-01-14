@@ -1,5 +1,5 @@
 (library
   (name lib)
   (public_name fhir_compiler.lib)
-  (libraries yojson core ppx_deriving_yojson.runtime)
-  (preprocess (pps ppx_deriving_yojson ppx_deriving.std)))
+  (libraries yojson core ppx_yojson_conv uri fmt)
+  (preprocess (pps ppx_deriving.std ppx_yojson_conv)))

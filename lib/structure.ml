@@ -2,14 +2,14 @@ open! Core
 
 type structure = {
   element: Element.t list
-} [@@deriving yojson {strict = false}, show, eq]
+} [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
 type t = {
   resourceType: string;
   id: string;
   name: string;
   snapshot: structure
-} [@@deriving yojson {strict = false}, show, eq]
+} [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
 
 let create greeting =
@@ -20,3 +20,11 @@ let typ t =
 
 let elements t =
   t.snapshot.element
+
+let to_fhir t =
+  let name = typ t in
+  let fields = List.filter_map (elements t) ~f:Element.to_field in
+  Fhir.Object {
+    name = name;
+    fields = fields
+  }
