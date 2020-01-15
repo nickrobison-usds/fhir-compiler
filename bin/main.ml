@@ -13,7 +13,7 @@ let parse file =
   ( try
       let def = parse_definition ic in
       Stdio.print_endline "Parsed:";
-      Resource.emit Fmt.stdout (Structure.to_fhir def)
+      Resource.emit Fmt.stderr (Structure.to_fhir def)
     with End_of_file ->
       Stdio.In_channel.close ic);
   Stdio.print_endline "Done!"

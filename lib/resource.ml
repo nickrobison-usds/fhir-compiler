@@ -12,4 +12,4 @@ let make name fields =
   }
 
 let emit fmt t =
-  Fmt.pf fmt "%s" t.name
+  Fmt.pf fmt "%s\n" t.name
