@@ -7,6 +7,7 @@ bug-reports: "https://github.com/nickrobison-usds/fhir-compiler/issues"
 depends: [
   "ocaml" {> "4.06.0"}
   "dune" {> "2.1"}
+  "dune-build-info" {build}
   "base"
   "fmt"
   "yojson"
@@ -14,6 +15,7 @@ depends: [
   "uri"
   "calendar"
   "iso8601"
+  "cmdliner"
   "alcotest" {with-test}
   "bos" {with-test}
 ]

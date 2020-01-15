@@ -1,4 +1,4 @@
 (executable
  (name main)
  (public_name fhirc)
- (libraries base lib))
+ (libraries base lib cmdliner dune-build-info))
