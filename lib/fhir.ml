@@ -39,23 +39,6 @@ let typ_of_string = function
   | "Boolean" -> PackedType fhir_boolean
   | e -> raise (UnsupportedType e)
 
-module Resource = struct
-  type t = {
-    name: string;
-    fields: packed list
-  }
-
-  let make name fields =
-    {
-      name = name;
-      fields = fields;
-    }
-
-  let fields t =
-    t.fields
-end
-
-
 let get_fields: 'src. 'src typ  -> 'src field list = function
   | Object o -> o.fields
   | Scalar _ -> []

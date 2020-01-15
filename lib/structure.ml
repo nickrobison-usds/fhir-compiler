@@ -28,4 +28,4 @@ let to_fhir t =
       | Some e ->  Some (Fhir.Packed e)
       | None -> None
       ) in
-  Fhir.Resource.make name fields
+  Resource.make name fields

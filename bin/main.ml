@@ -12,10 +12,11 @@ let parse file =
   let ic = Stdio.In_channel.create file in
   ( try
       let def = parse_definition ic in
-      Stdio.print_endline( "Parsed: " ^ Structure.typ def)
+      Stdio.print_endline "Parsed:";
+      Resource.emit Fmt.stdout (Structure.to_fhir def)
     with End_of_file ->
       Stdio.In_channel.close ic);
-  Stdio.print_endline "Hello, World!"
+  Stdio.print_endline "Done!"
 
 let file =
   let _doc = "Input file to parse." in

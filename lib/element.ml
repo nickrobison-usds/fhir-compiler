@@ -49,5 +49,3 @@ let to_field t =
   match List.hd t.typ with
   | Some code -> Some (emit_field t code.code)
   | None -> None
-
-
