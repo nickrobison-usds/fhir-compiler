@@ -1,4 +1,4 @@
-open! Core
+open! Base
 
 exception UnsupportedType of string
 
@@ -28,11 +28,11 @@ let fhir_code = Scalar {
 
 let fhir_date = Scalar {
     name = "Date";
-    emit = fun d -> Date.to_string_iso8601_basic d
+    emit = fun d -> d (*CalendarLib.Date.from_unixfloat (ISO8601.Permissive.date d)*)
   }
 
 type packed = Packed: 'src field -> packed
-  type packed_type = PackedType: 'src typ -> packed_type
+type packed_type = PackedType: 'src typ -> packed_type
 
 let typ_of_string = function
   | "Date" -> PackedType fhir_date

@@ -1,4 +1,4 @@
-open! Core
+open! Base
 open Alcotest
 
 exception ParseError of string
