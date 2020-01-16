@@ -2,6 +2,25 @@ open! Base
 
 exception UnsupportedType of string
 
+type datatype =
+  | Boolean
+  | Integer
+  | String
+  | Decimal
+
+let datatype_of_string = function
+  | "boolean" -> Boolean
+  | "string" -> String
+  | "integer" -> Integer
+  | "decimal" -> Decimal
+  | _  -> String
+
+let datatype_to_string = function
+  | Boolean -> "boolean"
+  | Integer -> "integer"
+  | String -> "string"
+  | Decimal -> "decimal"
+
 type 'src typ =
   | Scalar of {
       name: string;
@@ -13,6 +32,7 @@ type 'src typ =
     }
 and 'src field = Field : {
     name: string;
+    fhir_type: datatype;
     output_typ: 'out typ;
   } -> 'src field
 

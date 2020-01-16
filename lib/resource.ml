@@ -11,8 +11,8 @@ let make name fields =
     fields = fields;
   }
 
-let emit fmt _t =
-  let names = ["Hello"; "from"; "print"] in
-  let s = Fmt.list ~sep:Fmt.comma Fmt.string in
+let emit fmt t =
+  let _names = ["Hello"; "from"; "print"] in
+  let s = Fmt.list ~sep:Fmt.comma Element.emit in
   let s = Fmt.vbox (Fmt.braces s) in
-  Fmt.pf fmt "open class %s: StructureDefinition%a\n" "hello" s names
+  Fmt.pf fmt "open class %s: Resource %a\n" t.name s t.fields

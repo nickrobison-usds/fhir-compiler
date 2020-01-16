@@ -43,9 +43,14 @@ let emit_field t code =
   Fhir.Field {
     name = t.id;
     output_typ = ts;
+    fhir_type = Fhir.datatype_of_string code;
   }
 
 let to_field t =
   match List.hd t.typ with
   | Some code -> Some (emit_field t code.code)
   | None -> None
+
+let emit fmt t =
+  match t with
+  | Fhir.Packed (Field {name; fhir_type; _}) -> Fmt.pf fmt "%s:%s" name (Fhir.datatype_to_string fhir_type)
