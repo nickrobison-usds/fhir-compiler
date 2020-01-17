@@ -1,8 +1,8 @@
 open! Base
 
-type t = {
+type 'a t = {
   name: string;
-  fields: Fhir.packed list
+  fields: 'a Fhir.field_ list
 }
 
 let make name fields =

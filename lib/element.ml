@@ -22,8 +22,6 @@ type typ = {
   versioning: string option [@default None];
 } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
-
-
 type t = {
   path: string;
   id: string;
@@ -35,15 +33,10 @@ type t = {
 let create hello =
   {path = hello; id = hello; short_description = (Some hello); typ = []}
 
-let emit_field t code =
-  let ts = Fhir.Scalar{
-      name = code;
-      emit = fun c -> c;
-    } in
+let emit_field _t code =
   Fhir.Field {
-    name = t.id;
-    output_typ = ts;
-    fhir_type = Fhir.datatype_of_string code;
+    label = code;
+    field_type = Fhir.datatype_of_string code;
   }
 
 let to_field t =
@@ -51,6 +44,7 @@ let to_field t =
   | Some code -> Some (emit_field t code.code)
   | None -> None
 
-let emit fmt t =
-  match t with
-  | Fhir.Packed (Field {name; fhir_type; _}) -> Fmt.pf fmt "public var %s: %s" name (Fhir.datatype_to_string fhir_type)
+
+let emit: type a. Formatter.t -> a Fhir.field_ -> unit =
+  fun fmt t -> match t with
+    | Field f ->  Fmt.pf fmt "public var %s: %s" f.label (Fhir.datatype_to_string f.field_type)

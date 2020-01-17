@@ -1,7 +1,7 @@
 open! Base
 
-type t
+type 'a t
 
-val make: string -> Fhir.packed list -> t
+val make: string -> 'a Fhir.field_ list -> 'a t
 
-val emit: Formatter.t -> t -> unit
+val emit: Formatter.t -> 'a t -> unit

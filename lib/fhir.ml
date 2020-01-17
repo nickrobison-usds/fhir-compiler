@@ -21,50 +21,14 @@ let datatype_to_string = function
   | String -> "string"
   | Decimal -> "decimal"
 
-type 'src typ =
-  | Scalar of {
-      name: string;
-      emit: 'src -> string;
-    }
-  | Object of {
-      name: string;
-      fields: 'src field list;
-    }
-and 'src field = Field : {
-    name: string;
-    fhir_type: datatype;
-    output_typ: 'out typ;
-  } -> 'src field
+type 'a record = {
+  path: string;
+  fields: 'a field_ list;
+}
+and 'a field_ =
+  | Field: ('a, 'b) field -> 'a field_
+and ('a, 'b) field = {
+  label: string;
+  field_type: datatype
+}
 
-let fhir_boolean = Scalar {
-    name = "Boolean";
-    emit = fun b -> Bool.to_string b;
-  }
-
-let fhir_code = Scalar {
-    name = "Code";
-    emit = fun c -> c;
-  }
-
-let fhir_date = Scalar {
-    name = "Date";
-    emit = fun d -> d (*CalendarLib.Date.from_unixfloat (ISO8601.Permissive.date d)*)
-  }
-
-type packed = Packed: 'src field -> packed
-type packed_type = PackedType: 'src typ -> packed_type
-
-let typ_of_string = function
-  | "Date" -> PackedType fhir_date
-  | "Boolean" -> PackedType fhir_boolean
-  | e -> raise (UnsupportedType e)
-
-let get_fields: 'src. 'src typ  -> 'src field list = function
-  | Object o -> o.fields
-  | Scalar _ -> []
-
-let dump_print: 'src. 'src -> 'src typ -> string =
-  fun src typ ->
-  match typ with
-  | Scalar s -> s.emit src
-  | Object o -> o.name
