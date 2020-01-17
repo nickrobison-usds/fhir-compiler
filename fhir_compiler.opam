@@ -13,6 +13,7 @@ depends: [
   "yojson"
   "ppx_yojson_conv"
   "uri"
+  "re"
   "calendar"
   "iso8601"
   "cmdliner"

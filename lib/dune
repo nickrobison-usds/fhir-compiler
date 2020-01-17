@@ -1,5 +1,5 @@
 (library
   (name lib)
   (public_name fhir_compiler.lib)
-  (libraries yojson base ppx_yojson_conv uri fmt calendar ISO8601)
+  (libraries yojson base ppx_yojson_conv uri fmt calendar ISO8601 re)
   (preprocess (pps ppx_deriving.std ppx_yojson_conv)))
