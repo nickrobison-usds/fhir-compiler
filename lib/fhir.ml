@@ -16,19 +16,31 @@ let datatype_of_string = function
   | _  -> String
 
 let datatype_to_string = function
-  | Boolean -> "boolean"
-  | Integer -> "integer"
-  | String -> "string"
-  | Decimal -> "decimal"
+  | Boolean -> "Bool"
+  | Integer -> "Int"
+  | String -> "String"
+  | Decimal -> "Float"
 
 type 'a record = {
   path: string;
   fields: 'a field_ list;
 }
 and 'a field_ =
-  | Field: ('a, 'b) field -> 'a field_
-and ('a, 'b) field = {
+  | Scalar: ('a, 'b) scalar -> 'a field_
+  | Union: ('a, 'b) union -> 'a field_
+  | Arity: ('a, 'b) arity -> 'a field_
+and ('a, 'b) scalar = {
   label: string;
-  field_type: datatype
+  field_type: datatype;
+  required: bool;
 }
-
+and ('a, 'b) arity = {
+  l3: string;
+  min: int;
+  max: string;
+  ft2: datatype
+}
+and ('a, 'b) union = {
+  l2: string;
+  field_types: datatype list;
+}
