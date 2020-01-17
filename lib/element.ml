@@ -53,4 +53,4 @@ let to_field t =
 
 let emit fmt t =
   match t with
-  | Fhir.Packed (Field {name; fhir_type; _}) -> Fmt.pf fmt "%s:%s" name (Fhir.datatype_to_string fhir_type)
+  | Fhir.Packed (Field {name; fhir_type; _}) -> Fmt.pf fmt "public var %s: %s" name (Fhir.datatype_to_string fhir_type)
