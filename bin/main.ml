@@ -4,19 +4,8 @@ open Cmdliner
 
 exception ParseError of string
 
-let parse_definition ic =
-  let json = Yojson.Safe.from_channel ic in
-  Structure.t_of_yojson json
+module P = Compiler.Make(Swift.Main)
 
-let parse file =
-  let ic = Stdio.In_channel.create file in
-  ( try
-      let def = parse_definition ic in
-      Stdio.print_endline "Parsed:";
-      Resource.emit Fmt.stderr (Structure.to_fhir def)
-    with End_of_file ->
-      Stdio.In_channel.close ic);
-  Stdio.print_endline "Done!"
 
 let file =
   let _doc = "Input file to parse." in
@@ -27,7 +16,7 @@ let version =
   | None -> "n/a"
   | Some v -> Build_info.V1.Version.to_string v
 
-let parse_t = Term.(const parse $ file)
+let parse_t = Term.(const P.parse $ file)
 
 let info =
   let doc = "FHIR language compiler" in
