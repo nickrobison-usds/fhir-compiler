@@ -1,4 +1,4 @@
 (library
   (name swift)
   (public_name fhir_compiler.swift)
-  (libraries fhir_compiler.lib base re fmt))
+  (libraries fhir_compiler.lib base re fmt cmdliner))

@@ -1,4 +1,5 @@
 open! Base
+open Lib
 
 type structure = {
   element: Element.t list
@@ -21,9 +22,10 @@ let typ t =
 let elements t =
   t.snapshot.element
 
-let to_fhir t =
+let to_fhir json =
+  let t = t_of_yojson json in
   let name = typ t in
   let fields = List.filter_map (elements t) ~f:(fun e ->
       Element.to_field e
-      ) in
+    ) in
   Resource.make name fields

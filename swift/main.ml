@@ -22,3 +22,8 @@ let emit: type a. Formatter.t -> a Lib.Resource.t -> unit =
   let s = Fmt.list ~sep Element.emit in
   let s = Fmt.vbox (Fmt.braces (surround Fmt.cut Fmt.cut s)) in
   Fmt.pf fmt "open class %s %a\n" t.name s t.fields
+
+let commands =
+  let open Cmdliner in
+  Term.(ret (const (fun _ -> `Help (`Pager, None)) $ const ())),
+  Term.info "swift"
