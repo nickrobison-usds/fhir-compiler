@@ -68,20 +68,3 @@ let to_field t =
   | [] -> None
   | [x] ->  Some (emit_single t x.code)
   | x -> Some (emit_union t x)
-
-
-(** Emit an ampersand.*)
-let ampersand fmt _ =
-  Fmt.pf fmt " || "
-
-
-let emit: type a. Formatter.t -> a Fhir.field_ -> unit =
-  fun fmt t -> match t with
-    | Scalar f ->  Fmt.pf fmt "public var %s: %s" f.label (Fhir.datatype_to_string f.field_type)
-    | Union f -> (
-        let l = List.map ~f:Fhir.datatype_to_string f.field_types in
-        let s = Fmt.list ~sep:ampersand Fmt.string in
-        Fmt.pf fmt "public var %s: %a" f.l2 s l
-      )
-    | Arity a -> Fmt.pf fmt "public var %s: [%s]" a.l3 (Fhir.datatype_to_string a.ft2)
-
