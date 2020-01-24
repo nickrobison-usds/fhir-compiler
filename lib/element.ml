@@ -38,8 +38,7 @@ let replace_leading s =
 
 let emit_scalar t code =
   Fhir.Scalar {
-    label = replace_leading t.id;
-    field_type = Fhir.datatype_of_string code;
+    scalar_type = Fhir.datatype_of_string code;
     required = Int.(>=) 1 t.min;
   }
 
@@ -59,12 +58,19 @@ let emit_single t code =
 let emit_union t typs =
   let l = List.map ~f:(fun f -> f.code) typs in
   Fhir.Union {
-    field_types = List.map ~f:Fhir.datatype_of_string l;
+    field_types = List.map ~f:(fun c -> emit_single t c) l;
     l2 = replace_leading t.id;
   }
 
 let to_field t =
-  match t.typ with
+  let dt = match t.typ with
   | [] -> None
   | [x] ->  Some (emit_single t x.code)
   | x -> Some (emit_union t x)
+  in
+  match dt with
+  | None -> None
+  | Some dt -> Some (Fhir.Field {
+      id = t.id;
+      field_path = replace_leading t.path;
+      datatype = dt})

@@ -23,15 +23,21 @@ let datatype_to_string = function
 
 type 'a record = {
   path: string;
-  fields: 'a field_ list;
+  fields: 'a fhir_datatype list;
 }
-and 'a field_ =
-  | Scalar: ('a, 'b) scalar -> 'a field_
-  | Union: ('a, 'b) union -> 'a field_
-  | Arity: ('a, 'b) arity -> 'a field_
+and ('a, 'b) field_ = {
+  id: string;
+  field_path: string;
+  datatype: 'a fhir_datatype
+}
+and 'a field =
+  | Field: ('a, 'b) field_ -> 'a field
+and 'a fhir_datatype =
+  | Scalar: ('a, 'b) scalar -> 'a fhir_datatype
+  | Union: ('a, 'b) union -> 'a fhir_datatype
+  | Arity: ('a, 'b) arity -> 'a fhir_datatype
 and ('a, 'b) scalar = {
-  label: string;
-  field_type: datatype;
+  scalar_type: datatype;
   required: bool;
 }
 and ('a, 'b) arity = {
@@ -42,5 +48,5 @@ and ('a, 'b) arity = {
 }
 and ('a, 'b) union = {
   l2: string;
-  field_types: datatype list;
+  field_types: 'a fhir_datatype list;
 }

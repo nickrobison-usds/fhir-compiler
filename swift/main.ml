@@ -2,7 +2,7 @@ open! Base
 
 type 'a t = {
   name: string;
-  fields: 'a Lib.Fhir.field_ list
+  fields: 'a Lib.Fhir.field list
 }
 
 let name () = "Swift"
