@@ -17,6 +17,8 @@ depends: [
   "calendar"
   "iso8601"
   "cmdliner"
+  "cohttp-lwt-unix"
+  "camlzip"
   "alcotest" {with-test}
   "bos" {with-test}
 ]
