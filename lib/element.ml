@@ -33,8 +33,13 @@ type t = {
 
 let reg = Re.Posix.compile_pat "^([A-Za-z]+\\.)+"
 
+let primitive = Re.Posix.compile_pat "^[a-z][A-Za-z]+$"
+
 let replace_leading s =
   Re.replace_string reg ~by:"" s
+
+let is_primitive s =
+  not (List.is_empty (Re.matches primitive s))
 
 let emit_scalar t code =
   Fhir.Scalar {

@@ -3,7 +3,7 @@ open Alcotest
 
 exception ParseError of string
 
-let structTest = testable Lib.Structure.pp Lib.Structure.equal
+(*let structTest = testable Lib.Structure.pp Lib.Structure.equal
 
 let test_case typ typ_str v = check typ typ_str v v
 
@@ -33,19 +33,13 @@ let test_patient_parse () =
 let obj = Lib.Structure.to_fhir p in
   Alcotest.(check int) "Should have identical number of fields" 51 (List.length (Lib.Fhir.Resource.fields obj))
 
-
-let test_ok () =
-  Alcotest.(check string) "same string" "hello" "hello"
+*)
 
 let () =
-  let open Alcotest in
   run "Unit Tests" [
-    "Simple",
-    [
-      test_case "Always pass" `Quick test_ok;
-    ];
-    "Parsing",
+    Element_tests.element_tests;
+    (*"Parsing",
     [
       test_case "Patient Resource" `Quick test_patient_parse;
-    ]
+    ]*)
   ]
