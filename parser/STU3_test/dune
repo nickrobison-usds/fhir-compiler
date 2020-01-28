@@ -1,0 +1,4 @@
+(test
+  (name unit)
+  (libraries alcotest base bos yojson fhir_compiler.parser.stu3)
+  (deps (source_tree resources)))
