@@ -55,10 +55,20 @@ let emit_arity t code =
     ft2 = Fhir.datatype_of_string code;
   }
 
+let emit_complex t code =
+  Fhir.Complex {
+    l = replace_leading t.path;
+    typ = code;
+  }
+
 let emit_single t code =
-  match t.max with
-  | "1" -> emit_scalar t code
-  | _ -> emit_arity t code
+  match is_primitive code with
+  | true ->
+    (match t.max with
+     | "1" -> emit_scalar t code
+     | _ -> emit_arity t code)
+  | false ->
+    emit_complex t code
 
 let emit_union t typs =
   let l = List.map ~f:(fun f -> f.code) typs in
@@ -69,9 +79,9 @@ let emit_union t typs =
 
 let to_field t =
   let dt = match t.typ with
-  | [] -> None
-  | [x] ->  Some (emit_single t x.code)
-  | x -> Some (emit_union t x)
+    | [] -> None
+    | [x] ->  Some (emit_single t x.code)
+    | x -> Some (emit_union t x)
   in
   match dt with
   | None -> None

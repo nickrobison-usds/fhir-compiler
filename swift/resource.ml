@@ -17,10 +17,13 @@ let datatype_to_string =
   fun d ->
   let open Lib.Fhir in
   match d with
+  | Base64Binary | Code | ID | Markdown | OID | String | Xhtml -> "String"
   | Boolean -> "Bool"
-  | Integer -> "Int"
-  | String -> "String"
-  | Decimal -> "Float"
+  | Date | DateTime | Instant | Time -> "Date"
+  | Decimal -> "Double"
+  | PositiveInt | UnsignedInt | Integer -> "Int"
+  | URI -> "URL"
+  | UUID -> "UUID"
 
 
 let process_field: type a. t -> a Lib.Fhir.field -> t =
@@ -39,6 +42,9 @@ let process_field: type a. t -> a Lib.Fhir.field -> t =
     | Union _ -> t
     | Arity f ->
       let value = {name = f.l3; typ = datatype_to_string f.ft2; multiple = true; required = false} in
+      {t with fields = value :: t.fields}
+    | Complex c ->
+      let value = {name = c.l; typ = c.typ; multiple = false; required = false} in
       {t with fields = value :: t.fields}
 
 
@@ -68,7 +74,7 @@ let emit_value fmt (v: swift_value) =
 
 let emit_constructor fmt t =
   let s = Fmt.list ~sep:Fmt.comma emit_name_value_pair in
-  Fmt.pf fmt "init(%a)" s t.constructor
+  Fmt.pf fmt "init(%a) {}" s t.constructor
 
 let combined fmt t =
   let values = Fmt.list ~sep:Fmt.cut emit_value in
