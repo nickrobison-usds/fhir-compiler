@@ -1,9 +1,9 @@
 open! Base
 
 module type B = sig
-  val name: unit -> string
+  val name: string
 
-  val emit: Formatter.t -> 'a Resource.t -> unit
+  val emit: Fpath.t -> 'a Resource.t -> unit
 
   val commands: ('a Cmdliner.Term.t * Cmdliner.Term.info)
 

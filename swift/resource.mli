@@ -4,4 +4,4 @@ type t
 
 val create: 'a Lib.Resource.t -> t
 
-val emit: Formatter.t -> t -> unit
+val emit: Fpath.t -> t -> unit

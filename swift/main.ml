@@ -5,7 +5,7 @@ type 'a t = {
   fields: 'a Lib.Fhir.field list
 }
 
-let name () = "Swift"
+let name = "Swift"
 
 let make name fields =
   {
@@ -15,7 +15,7 @@ let make name fields =
 let surround p1 p2 pp_v fmt v =
   Fmt.pf fmt "%a%a%a" p1 () pp_v v p2 ()
 
-let emit: type a. Formatter.t -> a Lib.Resource.t -> unit =
+let emit: type a. Fpath.t -> a Lib.Resource.t -> unit =
   fun fmt t ->
   let res = Resource.create t in
   Resource.emit fmt res

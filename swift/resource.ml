@@ -25,6 +25,10 @@ let datatype_to_string =
   | URI -> "URL"
   | UUID -> "UUID"
 
+let filter_name = function
+  | "extension" -> "extension_fhir"
+  | s -> s
+
 
 let process_field: type a. t -> a Lib.Fhir.field -> t =
   fun t field->
@@ -32,7 +36,7 @@ let process_field: type a. t -> a Lib.Fhir.field -> t =
   | Field field ->
     match field.datatype with
     | Scalar f -> begin
-        let value = {name = field.field_path; typ = datatype_to_string f.scalar_type; multiple = false; required = f.required}
+        let value = {name = filter_name field.field_path; typ = datatype_to_string f.scalar_type; multiple = false; required = f.required}
         in
         if f.required then
           {t with constructor = value :: t.constructor; fields = value :: t.fields}
@@ -41,10 +45,10 @@ let process_field: type a. t -> a Lib.Fhir.field -> t =
       end
     | Union _ -> t
     | Arity f ->
-      let value = {name = f.l3; typ = datatype_to_string f.ft2; multiple = true; required = false} in
+      let value = {name = filter_name f.l3; typ = datatype_to_string f.ft2; multiple = true; required = false} in
       {t with fields = value :: t.fields}
     | Complex c ->
-      let value = {name = c.l; typ = c.typ; multiple = false; required = false} in
+      let value = {name = filter_name c.l; typ = c.typ; multiple = false; required = false} in
       {t with fields = value :: t.fields}
 
 
@@ -76,13 +80,21 @@ let emit_constructor fmt t =
   let s = Fmt.list ~sep:Fmt.comma emit_name_value_pair in
   Fmt.pf fmt "init(%a) {}" s t.constructor
 
+let nline fmt _ =
+  Fmt.pf fmt "%s" "\n"
+
 let combined fmt t =
-  let values = Fmt.list ~sep:Fmt.cut emit_value in
-  Fmt.pf fmt "%a\n\n%a\n\n" values t.fields emit_constructor t
+  let values = Fmt.list ~sep:nline emit_value in
+  Fmt.pf fmt "\n%a\n\n%a\n\n" values t.fields emit_constructor t
 
-
-
-let emit fmt t =
+let write_to_file t =
+  fun oc ->
   let s = Fmt.vbox (Fmt.braces (surround Fmt.cut Fmt.cut combined)) in
-  Fmt.pf fmt "open class %s %a\n" t.name s t
+  let str = Fmt.str "open class %s %a\n" t.name s t in
+  Stdio.Out_channel.output_string oc str
 
+let emit path t =
+  let path = Fpath.add_seg path  (Fmt.str "%s.swift" t.name) in
+  Stdio.printf "Writing to %s\n" (Fpath.to_string path);
+  let write_to_file = write_to_file t in
+  Stdio.Out_channel.with_file (Fpath.to_string path) ~f:write_to_file
