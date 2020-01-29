@@ -5,12 +5,12 @@ open Cmdliner
 exception ParseError of string
 exception FileCreateion of string
 
-module C = Compiler.Make
-
 let version =
   match (Build_info.V1.version ()) with
   | None -> "n/a"
   | Some v -> Build_info.V1.Version.to_string v
+
+let n = Stu3.Structure.STU3_Parser.name
 
 
 (* Parser selection *)
@@ -46,15 +46,20 @@ let run_compiler copts =
     | Ok p -> p
     | _ -> raise (FileCreateion "can't")
   in
-  match (Hashtbl.find Backend.backends copts.backend) with
-  | Some (module B: Backend.B) ->
+  match (Hashtbl.find Parser.parsers "STU3") with
+  | None -> raise (FileCreateion "Cannot find parser")
+  | Some (module P: Parser.P) ->
     begin
-      let config = Sexp.Atom "swifts/outputs" in
-      let s = B.create (B.config_of_sexp config) in
-      let module CS = Compiler.Make(Stu3.Structure)(B) in
-      Lwt_main.run (CS.parse s)
+      match (Hashtbl.find Backend.backends copts.backend) with
+      | Some (module B: Backend.B) ->
+        begin
+          let config = Sexp.Atom "swifts/outputs" in
+          let s = B.create (B.config_of_sexp config) in
+          let module C = Compiler.Make(P)(B) in
+          Lwt_main.run (C.parse s)
+        end
+      | None -> raise (FileCreateion "Cannot find backend")
     end
-  | None -> raise (FileCreateion "Cannot find backend")
 
 let parse_cmd = Term.(const run_compiler $ copts_t)
 

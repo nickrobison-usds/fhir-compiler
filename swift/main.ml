@@ -45,4 +45,5 @@ end
 
 
 let () =
+  Stdio.print_endline "Registering Swift";
   Lib.Backend.register (module Swift_compiler) "swift"

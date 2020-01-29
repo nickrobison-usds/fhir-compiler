@@ -1,13 +1,18 @@
 open! Base
 open Lib
 
-type t [@@deriving yojson, show, eq]
+module STU3_Parser: sig
 
+  type t [@@deriving yojson, show, eq]
 
-val typ: t -> string
+  val name: string
 
-val elements: t -> Element.t list
+  val typ: t -> string
 
-val to_fhir: Yojson.Safe.t -> 'a Resource.t
+  val elements: t -> Element.t list
 
-val parse: unit -> 'a Resource.t Lwt_stream.t
+  val to_fhir: Yojson.Safe.t -> 'a Resource.t
+
+  val parse: unit -> 'a Resource.t Lwt_stream.t
+end
+
