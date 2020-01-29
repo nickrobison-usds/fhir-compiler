@@ -10,7 +10,7 @@ module Make
   let emit_resource path resource =
     Lwt.return (B.emit path resource)
 
-  let parse () =
+  let parse backend =
     let path = match Fpath.of_string "swifts/outputs" with
       | Ok p -> p
       | _ -> raise (FileCreateion "can't")
@@ -18,7 +18,7 @@ module Make
     let _ = Bos.OS.Dir.create path in
     Stdio.print_endline "Doing the parse";
     let p = P.parse () in
-    let emit_resource = emit_resource path in
+    let emit_resource = emit_resource backend in
     (* Handle each one *)
     Lwt_stream.iter_p emit_resource p
 

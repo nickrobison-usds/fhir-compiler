@@ -5,7 +5,7 @@ open Cmdliner
 exception ParseError of string
 exception FileCreateion of string
 
-module C = Compiler.Make (Stu3.Structure) (Swift.Main)
+module C = Compiler.Make
 
 let version =
   match (Build_info.V1.version ()) with
@@ -25,11 +25,7 @@ type copts = {file: string; parser: parser_version; backend: string}
 let pr_copts fmt copts = Fmt.pr fmt "file = %s\n parser = %s" copts.file (parser_version_str copts.parser)
 
 let copts file parser backend = {file; parser; backend}
-(*
-let file_t =
-  let _doc = "Input file to parse." in
-  Arg.(required & pos 0 (some string) None & info [] ~docv:"FILE")
-*)
+
 let parser_t =
   let doc = "Select parser to use." in
   let parser = Arg.enum ["stu3", STU3; "r4", R4] in
@@ -37,16 +33,28 @@ let parser_t =
 
 let backend_t =
   let doc = "Select backend to use." in
-  Arg.(value & opt (string) ~vopt:"swift" "swift" & info ["b"; "backend"] ~docv:"BACKEND" ~doc)
+  Arg.(required & pos 0 (some string) None & info [] ~docv:"BACKEND" ~doc)
 
 let copts_t =
   Term.(const copts $ const "" $ parser_t $ backend_t)
 
 
 (* Default CMD *)
-
-let run_compiler _copts =
-  Lwt_main.run (C.parse ())
+let run_compiler copts =
+  Stdio.printf "Generating: %s\n" copts.backend;
+  let _path = match Fpath.of_string "swifts/outputs" with
+    | Ok p -> p
+    | _ -> raise (FileCreateion "can't")
+  in
+  match (Hashtbl.find Backend.backends copts.backend) with
+  | Some (module B: Backend.B) ->
+    begin
+      let config = Sexp.Atom "swifts/outputs" in
+      let s = B.create (B.config_of_sexp config) in
+      let module CS = Compiler.Make(Stu3.Structure)(B) in
+      Lwt_main.run (CS.parse s)
+    end
+  | None -> raise (FileCreateion "Cannot find backend")
 
 let parse_cmd = Term.(const run_compiler $ copts_t)
 
@@ -62,15 +70,7 @@ let default_cmd =
   parse_cmd,
   Term.info "fhirc" ~version:version ~doc ~sdocs ~exits ~man
 
-let cmds = [Swift.Main.commands]
+let cmds = [Swift.Main.Swift_compiler.commands]
 
 let () =
-  (*Stdio.print_endline "Running";
-    let _path = match Fpath.of_string "swifts/outputs" with
-    | Ok p -> p
-    | _ -> raise (FileCreateion "can't")
-    in
-    C.parse () >>= fun () -> Stdio.print_endline "Finished";
-    Lwt.return_unit*)
-  (*;*)
   Term.(exit @@ eval default_cmd)
