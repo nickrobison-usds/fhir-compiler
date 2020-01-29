@@ -1,6 +1,7 @@
 open! Base
 open Lib
 open Cmdliner
+open Lwt
 
 exception ParseError of string
 
@@ -60,4 +61,9 @@ let default_cmd =
 let cmds = [Swift.Main.commands]
 
 let () =
-  Term.(exit @@ eval default_cmd)
+  Lwt_main.run (
+    Stdio.print_endline "Running";
+    C.parse () >>= fun () -> Stdio.print_endline "Finished";
+    Lwt.return_unit
+    (*Term.(exit @@ eval default_cmd);*)
+  )

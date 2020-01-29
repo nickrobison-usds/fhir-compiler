@@ -1,7 +1,6 @@
 open! Base
 open Lib
 open Lwt
-open Cohttp_lwt_unix
 
 type structure = {
   element: Element.t list
@@ -29,13 +28,8 @@ let to_fhir json =
     ) in
   Resource.make name fields
 
-let body_writer body =
-  let open Stdio.Out_channel in
-  let oc = create "test/nothing" in
-  output_string oc body;
-  close oc;
-  Lwt.return_unit
+
 
 let parse () =
-  Client.get (Uri.of_string "http://hl7.org/fhir/STU3/examples-json.zip") >>= fun (_resp, body) ->
-  Cohttp_lwt.Body.write_body body_writer body >>= fun () -> Lwt.return []
+  Downloader.download "http://hl7.org/fhir/STU3/examples.zip" >>= fun _ ->
+  Lwt.return []
