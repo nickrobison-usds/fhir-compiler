@@ -1,16 +1,18 @@
 open! Base
-open Lwt
 
 module Make
     (P: Parser.P)
     (B: Backend.B)
 = struct
 
+  let emit_resource resource =
+    Lwt.return (B.emit Fmt.stdout resource)
+
   let parse () =
     Stdio.print_endline "Doing the parse";
-    P.parse () >>= fun p ->
-    Stdio.print_endline (Int.to_string (List.length p));
-    Lwt.return_unit
+    let p = P.parse () in
+    (* Handle each one *)
+    Lwt_stream.iter_p emit_resource p
 
   let parse_definition ic =
     let json = Yojson.Safe.from_channel ic in

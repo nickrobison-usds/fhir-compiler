@@ -31,8 +31,11 @@ let to_fhir json =
 
 
 let parse () =
-  Downloader.download "http://hl7.org/fhir/STU3/examples-json.zip" >|=
-  Downloader.unzip >|=
-  Lwt_stream.map Yojson.Safe.from_string >|=
-  Lwt_stream.map to_fhir >>= fun s ->
-  Lwt_stream.to_list s
+  let stream, pusher = Lwt_stream.create () in
+  let _ = Downloader.download "http://hl7.org/fhir/STU3/examples-json.zip" >>= fun pth ->
+    Downloader.unzip pth pusher;
+    Lwt.return_unit
+  in
+  stream
+  |> Lwt_stream.map Yojson.Safe.from_string
+  |> Lwt_stream.map to_fhir

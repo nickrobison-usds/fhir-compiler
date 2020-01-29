@@ -34,13 +34,12 @@ let handle_entry pusher ic (entry: Zip.entry) =
       pusher s
     end
 
-let unzip pth =
+let unzip pth pusher =
   let ic = Zip.open_in (Fpath.to_string pth) in
-  let stream, pusher = Lwt_stream.create () in
   let handle_entry = handle_entry pusher ic in
   let entries = Zip.entries ic in
   let entries = List.filter ~f:(fun (e: Zip.entry) -> List.length (Re.matches reg e.filename) > 0)  entries in
   let entries = List.take entries 10 in
   List.iter ~f:handle_entry entries;
-  pusher None;
-  stream
+  Stdio.print_endline "Sending done";
+  pusher None
