@@ -19,6 +19,7 @@ depends: [
   "cmdliner"
   "cohttp-lwt-unix"
   "camlzip"
+  "logs"
   "alcotest" {with-test}
   "bos" {with-test}
 ]

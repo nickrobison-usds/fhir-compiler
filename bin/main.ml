@@ -5,13 +5,31 @@ open Cmdliner
 exception ParseError of string
 exception FileCreateion of string
 
+let src = Logs.Src.create "Fhirc" ~doc: "FHIR Compiler"
+
+module Log = (val Logs.src_log src : Logs.LOG)
+
+let info fmt s =
+  Log.app (fun m -> m fmt s)
+
+let debug fmt s =
+  Log.debug (fun m -> m fmt s)
+
+let setup_log style_renderer level =
+  Fmt_tty.setup_std_outputs ?style_renderer ();
+  Logs.set_level level;
+  Logs.set_reporter (Logs_fmt.reporter ());
+  ()
+
+let setup_log =
+  Term.(const setup_log $ Fmt_cli.style_renderer () $ Logs_cli.level ())
+
 let version =
   match (Build_info.V1.version ()) with
   | None -> "n/a"
   | Some v -> Build_info.V1.Version.to_string v
 
 let n = Stu3.Structure.STU3_Parser.name
-
 
 (* Parser selection *)
 type parser_version = STU3 | R4
@@ -24,7 +42,7 @@ type copts = {file: string; parser: parser_version; backend: string}
 
 let pr_copts fmt copts = Fmt.pr fmt "file = %s\n parser = %s" copts.file (parser_version_str copts.parser)
 
-let copts file parser backend = {file; parser; backend}
+let copts file parser backend _logs = {file; parser; backend}
 
 let parser_t =
   let doc = "Select parser to use." in
@@ -36,17 +54,16 @@ let backend_t =
   Arg.(required & pos 0 (some string) None & info [] ~docv:"BACKEND" ~doc)
 
 let copts_t =
-  Term.(const copts $ const "" $ parser_t $ backend_t)
-
+  Term.(const copts $ const "" $ parser_t $ backend_t $ setup_log)
 
 (* Default CMD *)
 let run_compiler copts =
-  Stdio.printf "Generating: %s\n" copts.backend;
+  info "Generating: %s\n" copts.backend;
   let _path = match Fpath.of_string "swifts/outputs" with
     | Ok p -> p
     | _ -> raise (FileCreateion "can't")
   in
-  match (Hashtbl.find Parser.parsers "STU3") with
+  match (Hashtbl.find Parser.parsers "stu3") with
   | None -> raise (FileCreateion "Cannot find parser")
   | Some (module P: Parser.P) ->
     begin
@@ -63,8 +80,7 @@ let run_compiler copts =
 
 let parse_cmd = Term.(const run_compiler $ copts_t)
 
-
-let default_cmd =
+let term =
   let doc = "FHIR language compiler" in
   let sdocs = Manpage.s_common_options in
   let exits = Term.default_exits in
@@ -75,7 +91,8 @@ let default_cmd =
   parse_cmd,
   Term.info "fhirc" ~version:version ~doc ~sdocs ~exits ~man
 
+
 let cmds = [Swift.Main.Swift_compiler.commands]
 
 let () =
-  Term.(exit @@ eval default_cmd)
+  Term.(exit @@ eval term)

@@ -1,5 +1,9 @@
 open! Base
 
+let src = Logs.Src.create "backend.swift" ~doc: "Swift backend"
+
+module Log = (val Logs.src_log src : Logs.LOG)
+
 module Swift_compiler = struct
 
   module Fpath = struct
@@ -45,5 +49,4 @@ end
 
 
 let () =
-  Stdio.print_endline "Registering Swift";
-  Lib.Backend.register (module Swift_compiler) "swift"
+  Lib.Backend.register (module Swift_compiler) Swift_compiler.name
