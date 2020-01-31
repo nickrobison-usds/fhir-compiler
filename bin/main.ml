@@ -9,16 +9,41 @@ let src = Logs.Src.create "Fhirc" ~doc: "FHIR Compiler"
 
 module Log = (val Logs.src_log src : Logs.LOG)
 
+
+let reporter ppf =
+  let report src level ~over k msgf =
+    let k _ = over (); k () in
+    let with_stamp h _tags k ppf fmt =
+      (* This is bad, should not use deprecated features*)
+      let open Caml in
+      Format.kfprintf k ppf ("%a[%s] @[" ^^ fmt ^^ "@]@.")
+        Logs.pp_header (level, h) (Logs.Src.name src)
+    in
+    msgf @@ fun ?header ?tags fmt -> with_stamp header tags k ppf fmt
+  in
+  { Logs.report = report }
+
 let info fmt s =
-  Log.app (fun m -> m fmt s)
+  Log.warn (fun m -> m fmt s)
 
 let debug fmt s =
   Log.debug (fun m -> m fmt s)
 
+(* We need to disable library logging, otherwise CoHTTP logs the entire payloard, but we want our applications to work correctly.*)
+let enable_app_logging level =
+  let re = Re.Perl.compile_pat "^fhirc.*" in
+  List.iter (Logs.Src.list ()) ~f:(fun s ->
+      match (Re.matches re (Logs.Src.name s)) with
+      | [] -> ()
+      | _ -> Logs.Src.set_level s level
+    )
+
 let setup_log style_renderer level =
   Fmt_tty.setup_std_outputs ?style_renderer ();
-  Logs.set_level level;
-  Logs.set_reporter (Logs_fmt.reporter ());
+  Logs.set_level (Some Logs.Warning);
+  enable_app_logging level;
+  (* This is bad, we shouldn't use deprecated features. *)
+  Logs.set_reporter (reporter Caml.Format.std_formatter);
   ()
 
 let setup_log =

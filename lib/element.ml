@@ -2,6 +2,10 @@ open! Base
 
 exception JsonConversionException of string
 
+let src = Logs.Src.create "fhirc.compiler.element" ~doc: "Element processing"
+
+module Log = (val Logs.src_log src : Logs.LOG)
+
 module Uri = struct
   include Uri
 
@@ -78,6 +82,7 @@ let emit_union t typs =
   }
 
 let to_field t =
+  Log.debug (fun f -> f "Converting element: %a" pp t);
   let dt = match t.typ with
     | [] -> None
     | [x] ->  Some (emit_single t x.code)

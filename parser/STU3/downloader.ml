@@ -26,7 +26,7 @@ let download uri =
   Client.get (Uri.of_string uri) >>= fun (resp, body) ->
   let code = resp |> Response.status |> Code.code_of_status in
   debug "Response code: %d\n" code;
-  (*debug "Headers: %s\n" (resp |> Response.headers |> Header.to_string);*)
+  debug "Headers: %s\n" (resp |> Response.headers |> Header.to_string);
   Cohttp_lwt.Body.to_string body >|=
   body_writer
 
