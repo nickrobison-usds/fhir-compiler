@@ -34,8 +34,8 @@ let n = Stu3.Structure.STU3_Parser.name
 (* Parser selection *)
 type parser_version = STU3 | R4
 let parser_version_str = function
-  | STU3 -> "stu3"
-  | R4 -> "r4"
+  | STU3 -> "STU3"
+  | R4 -> "R4"
 
 (* Common options *)
 type copts = {file: string; parser: parser_version; backend: string}
@@ -46,7 +46,7 @@ let copts file parser backend _logs = {file; parser; backend}
 
 let parser_t =
   let doc = "Select parser to use." in
-  let parser = Arg.enum ["stu3", STU3; "r4", R4] in
+  let parser = Arg.enum ["STU3", STU3; "R4", R4] in
   Arg.(value & opt (parser) ~vopt:(STU3) STU3 & info ["p"; "parser"] ~docv:"PARSER" ~doc)
 
 let backend_t =
@@ -63,7 +63,7 @@ let run_compiler copts =
     | Ok p -> p
     | _ -> raise (FileCreateion "can't")
   in
-  match (Hashtbl.find Parser.parsers "stu3") with
+  match (Hashtbl.find Parser.parsers "STU3") with
   | None -> raise (FileCreateion "Cannot find parser")
   | Some (module P: Parser.P) ->
     begin

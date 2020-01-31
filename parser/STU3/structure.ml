@@ -44,5 +44,6 @@ module STU3_Parser = struct
     |> Lwt_stream.map to_fhir
 end
 
-
-
+let () =
+  Stdio.print_endline "Registering STU3 parser";
+  Lib.Parser.register (module STU3_Parser) STU3_Parser.name

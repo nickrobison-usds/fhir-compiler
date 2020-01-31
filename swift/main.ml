@@ -47,6 +47,5 @@ module Swift_compiler = struct
 
 end
 
-
 let () =
   Lib.Backend.register (module Swift_compiler) Swift_compiler.name
