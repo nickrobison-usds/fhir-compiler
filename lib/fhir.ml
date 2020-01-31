@@ -44,12 +44,12 @@ let datatype_of_string = function
   | s -> raise (UnsupportedType s)
 
 type 'a record = {
-  path: string;
+  record_path: string;
   fields: 'a fhir_datatype list;
 }
 and ('a, 'b) field_ = {
+  path: Path.t;
   id: string;
-  field_path: string;
   datatype: 'a fhir_datatype
 }
 and 'a field =

@@ -92,5 +92,5 @@ let to_field t =
   | None -> None
   | Some dt -> Some (Fhir.Field {
       id = t.id;
-      field_path = replace_leading t.path;
+      path = Path.from_string t.path;
       datatype = dt})

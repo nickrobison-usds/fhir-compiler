@@ -1,5 +1,9 @@
 open! Base
 
+let src = Logs.Src.create "fhirc.backend.swift.resource" ~doc:"Swift backend resource emitter"
+
+module Log = (val Logs.src_log src : Logs.LOG)
+
 type swift_value = {
   name: string;
   typ: string;
@@ -30,31 +34,41 @@ let filter_name = function
   | s -> s
 
 
-let process_field: type a. t -> a Lib.Fhir.field -> t =
-  fun t field->
+let process_field: type a. Lib.Path.t -> t -> a Lib.Fhir.field -> t =
+  fun _path t field->
   match field with
   | Field field ->
-    match field.datatype with
-    | Scalar f -> begin
-        let value = {name = filter_name field.field_path; typ = datatype_to_string f.scalar_type; multiple = false; required = f.required}
-        in
-        if f.required then
-          {t with constructor = value :: t.constructor; fields = value :: t.fields}
-        else
+    if Lib.Path.length field.path > 2 then
+      begin
+        Log.debug (fun f -> f "Skipping field: %s" (Lib.Path.to_string field.path));
+        t
+      end
+    else
+      begin
+        match field.datatype with
+        | Scalar f -> begin
+            let value = {name = filter_name (Lib.Path.trailing field.path); typ = datatype_to_string f.scalar_type; multiple = false; required = f.required}
+            in
+            if f.required then
+              {t with constructor = value :: t.constructor; fields = value :: t.fields}
+            else
+              {t with fields = value :: t.fields}
+          end
+        | Union _ -> t
+        | Arity f ->
+          let value = {name = filter_name f.l3; typ = datatype_to_string f.ft2; multiple = true; required = false} in
+          {t with fields = value :: t.fields}
+        | Complex c ->
+          let value = {name = filter_name c.l; typ = c.typ; multiple = false; required = false} in
           {t with fields = value :: t.fields}
       end
-    | Union _ -> t
-    | Arity f ->
-      let value = {name = filter_name f.l3; typ = datatype_to_string f.ft2; multiple = true; required = false} in
-      {t with fields = value :: t.fields}
-    | Complex c ->
-      let value = {name = filter_name c.l; typ = c.typ; multiple = false; required = false} in
-      {t with fields = value :: t.fields}
 
 
 let create: type a. a Lib.Resource.t -> t =
   fun res ->
+  let path = Lib.Path.from_string res.name in
   let built = {name = res.name; constructor = []; fields = []} in
+  let process_field = process_field path in
   List.fold_left res.fields ~init:built ~f:process_field
 
 (* Resource writing *)
