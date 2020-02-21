@@ -52,21 +52,36 @@ let create: type a. a Lib.Resource.t -> t =
 
 (* Formatters *)
 
+let emit_constructor_body fmt (f: Swift_field.t) =
+  Fmt.pf fmt "self.%s=%s" f.name f.name
+
+let emit_constructor fmt t =
+  let args = Fmt.list ~sep:Fmt.comma Swift_field.emit_name_value_pair
+  in
+  let body_args = Fmt.list ~sep:Formatters.nline emit_constructor_body
+  in
+  Fmt.pf fmt "init %a{\n%a\n}"
+    (Fmt.parens args) t.constructor
+    body_args t.constructor
+
 let emit_open fmt t =
   Fmt.pf fmt "%s" ( if t.is_open then "open" else "")
 
-let emit_class_name t =
-  let fields = Fmt.braces (Fmt.list ~sep:Formatters.nline Swift_field.emit)
+let emit_class_body fmt t =
+  let fields = Fmt.list ~sep:Fmt.cut Swift_field.emit
   in
+  Fmt.pf fmt "%a\n\n%a" fields t.fields emit_constructor t
+
+let emit_class t =
   Fmt.str "%a %a class %s %a"
     Prelude.emit ()
     emit_open t
     t.name
-    fields t.fields
+    (Fmt.braces emit_class_body) t
 
 let write_to_file t =
   fun oc ->
-  Stdio.Out_channel.output_string oc (emit_class_name t)
+  Stdio.Out_channel.output_string oc (emit_class t)
 
 let emit path t =
   let path = Fpath.add_seg path  (Fmt.str "%s.swift" t.name) in
