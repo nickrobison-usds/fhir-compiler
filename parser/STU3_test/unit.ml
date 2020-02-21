@@ -51,4 +51,5 @@ let () =
       Alcotest.test_case "Patient Resource" `Quick test_patient_parse;
       Alcotest.test_case "Account Resource" `Quick test_account_parse;
     ];
+    Resources.test
   ]

@@ -35,6 +35,23 @@ type t = {
   max: string;
 } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
+let create name min max typs =
+  let typs = List.map typs ~f:(fun typ -> {
+      code = typ;
+      profile = None;
+      aggregation = [];
+      versioning = None;
+      targetProfile = None;
+    }) in
+  {
+    path = name;
+    id = name;
+    short_description = None;
+    typ = typs;
+    min;
+    max
+  }
+
 let reg = Re.Posix.compile_pat "^([A-Za-z]+\\.)+"
 
 let primitive = Re.Posix.compile_pat "^[a-z][A-Za-z]+$"

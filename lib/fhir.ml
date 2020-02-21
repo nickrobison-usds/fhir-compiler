@@ -43,6 +43,10 @@ let datatype_of_string = function
   | "xhtml" -> Xhtml
   | s -> raise (UnsupportedType s)
 
+let datatype_to_string = function
+  | String -> "string"
+  | _ -> raise (UnsupportedType "CAn't with it")
+
 type 'a record = {
   record_path: string;
   fields: 'a fhir_datatype list;

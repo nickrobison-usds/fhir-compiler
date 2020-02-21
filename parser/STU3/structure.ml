@@ -15,6 +15,16 @@ module STU3_Parser = struct
     snapshot: structure
   } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
+  let create typ name elements =
+    {
+      resourceType = typ;
+      id = name;
+      name = name;
+      snapshot = {
+        element = elements
+      }
+    }
+
   let name = "STU3"
 
   let typ t =
@@ -23,15 +33,17 @@ module STU3_Parser = struct
   let elements t =
     t.snapshot.element
 
-  let to_fhir json =
-    let t = t_of_yojson json in
+
+  let to_resource t =
     let name = t.name in
     let fields = List.filter_map (elements t) ~f:(fun e ->
         Element.to_field e
       ) in
     Resource.make name fields
 
-
+  let to_fhir json =
+    let t = t_of_yojson json in
+    to_resource t
 
   let parse () =
     let stream, pusher = Lwt_stream.create () in
