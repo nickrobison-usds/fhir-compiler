@@ -56,7 +56,13 @@ let emit_open fmt t =
   Fmt.pf fmt "%s" ( if t.is_open then "open" else "")
 
 let emit_class_name t =
-  Fmt.str "%a class %s" emit_open t t.name
+  let fields = Fmt.braces (Fmt.list ~sep:Formatters.nline Swift_field.emit)
+  in
+  Fmt.str "%a %a class %s %a"
+    Prelude.emit ()
+    emit_open t
+    t.name
+    fields t.fields
 
 let write_to_file t =
   fun oc ->

@@ -7,7 +7,6 @@ type t = {
   required: bool;
 }
 
-
 let datatype_to_string =
   fun d ->
   let open Lib.Fhir in
@@ -26,3 +25,19 @@ let filter_name = function
 
 let create name multiple typ required =
   {name = filter_name name; multiple; typ = datatype_to_string typ; required}
+
+(* Formatters *)
+
+let emit_maybe_multiple fmt t =
+  let p = if t.multiple then Fmt.brackets Fmt.string else Fmt.string in
+  Fmt.pf fmt "%a" p t.typ
+
+let emit_name_value_pair fmt t =
+  Fmt.pf fmt "%s: %a" t.name emit_maybe_multiple t
+
+let emit_field_optional fmt v =
+  let str = if v.required then "" else "?" in
+  Fmt.pf fmt "%s" str
+
+let emit fmt t =
+  Fmt.pf fmt "public var %a%a" emit_name_value_pair t emit_field_optional t
