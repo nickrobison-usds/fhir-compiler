@@ -46,12 +46,14 @@ let is_primitive s =
   not (List.is_empty (Re.matches primitive s))
 
 let emit_scalar t code =
+  Log.debug (fun f -> f "Emitting single max: %s" t.max);
   Fhir.Scalar {
     scalar_type = Fhir.datatype_of_string code;
     required = Int.(>=) 1 t.min;
   }
 
 let emit_arity t code =
+  Log.debug (fun f -> f "Emitting arity: min: %d max: %s" t.min t.max);
   Fhir.Arity {
     l3 = replace_leading t.id;
     min = t.min;
@@ -68,10 +70,12 @@ let emit_complex t code =
 let emit_single t code =
   match is_primitive code with
   | true ->
+    Log.debug (fun f -> f "Emitting primitive");
     (match t.max with
      | "1" -> emit_scalar t code
      | _ -> emit_arity t code)
   | false ->
+    Log.debug (fun f -> f "Emitting complex");
     (* Fix this, we need to get the datatype*)
     emit_complex t Fhir.Code
 
