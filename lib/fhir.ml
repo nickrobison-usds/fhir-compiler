@@ -75,5 +75,5 @@ and ('a, 'b) union = {
 }
 and ('a, 'b) complex = {
   l: string;
-  typ: string;
+  typ: datatype;
 }

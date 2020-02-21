@@ -59,7 +59,7 @@ let process_field: type a. Lib.Path.t -> t -> a Lib.Fhir.field -> t =
           let value = {name = filter_name f.l3; typ = datatype_to_string f.ft2; multiple = true; required = false} in
           {t with fields = value :: t.fields}
         | Complex c ->
-          let value = {name = filter_name c.l; typ = c.typ; multiple = false; required = false} in
+          let value = {name = filter_name c.l; typ = "code"; multiple = false; required = false} in
           {t with fields = value :: t.fields}
       end
 

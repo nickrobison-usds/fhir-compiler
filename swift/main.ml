@@ -37,8 +37,8 @@ module Swift_compiler = struct
 
   let emit: type a. t -> a Lib.Resource.t -> unit =
     fun t r ->
-    let res = Resource.create r in
-    Resource.emit t.output_dir res
+    let res = Class.create r in
+    Class.emit t.output_dir res
 
   let commands =
     let open Cmdliner in

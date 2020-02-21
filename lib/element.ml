@@ -72,7 +72,8 @@ let emit_single t code =
      | "1" -> emit_scalar t code
      | _ -> emit_arity t code)
   | false ->
-    emit_complex t code
+    (* Fix this, we need to get the datatype*)
+    emit_complex t Fhir.Code
 
 let emit_union t typs =
   let l = List.map ~f:(fun f -> f.code) typs in
