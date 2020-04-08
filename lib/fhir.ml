@@ -45,7 +45,7 @@ let datatype_of_string = function
 
 let datatype_to_string = function
   | String -> "string"
-  | _ -> raise (UnsupportedType "CAn't with it")
+  | _ -> raise (UnsupportedType "Can't with it")
 
 type 'a record = {
   record_path: string;
