@@ -1,4 +1,4 @@
 (test
   (name unit)
-  (libraries alcotest core bos yojson fhir_compiler.lib fmt)
+  (libraries alcotest base bos yojson fhir_compiler.lib fmt)
   (deps (source_tree resources)))
