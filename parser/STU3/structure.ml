@@ -33,12 +33,22 @@ module STU3_Parser = struct
   let elements t =
     t.snapshot.element
 
+  let handle_elements elements =
+    let _previous = ref None in
+    let rec h elements =
+      match elements with
+      | e :: lst -> Element.to_field e :: h lst
+      | [] -> []
+    in
+    h elements
+
 
   let to_resource t =
     let name = t.name in
-    let fields = List.filter_map (elements t) ~f:(fun e ->
+    let fields = List.filter_opt (handle_elements (elements t)) in
+    (**let fields = List.filter_map (elements t) ~f:(fun e ->
         Element.to_field e
-      ) in
+       ) in*)
     Resource.make name fields
 
   let to_fhir json =
