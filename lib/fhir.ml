@@ -1,6 +1,5 @@
 open! Base
-
-exception UnsupportedType of string
+open Exceptions
 
 type datatype =
   | Base64Binary
@@ -43,8 +42,10 @@ let datatype_of_string = function
   | "xhtml" -> Xhtml
   | s -> raise (UnsupportedType s)
 
-let datatype_to_string = function
+let datatype_to_string dt =
+match dt with
   | String -> "string"
+| Integer -> "integer"
   | _ -> raise (UnsupportedType "Can't with it")
 
 type 'a record = {
@@ -71,7 +72,7 @@ and ('a, 'b) arity = {
   l3: string;
   min: int;
   max: string;
-  ft2: datatype
+  ft2: datatype;
 }
 and ('a, 'b) union = {
   l2: string;
