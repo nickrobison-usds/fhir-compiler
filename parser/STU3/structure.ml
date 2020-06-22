@@ -46,9 +46,6 @@ module STU3_Parser = struct
   let to_resource t =
     let name = t.name in
     let fields = List.filter_opt (handle_elements (elements t)) in
-    (**let fields = List.filter_map (elements t) ~f:(fun e ->
-        Element.to_field e
-       ) in*)
     Resource.make name fields
 
   let to_fhir json =
