@@ -30,7 +30,7 @@ jobs:
 
       - run: opam pin add fhir_compiler.dev . --no-action
 
-      - run: opam depext hello --yes --with-doc --with-test
+      - run: opam depext fhir_compiler --yes --with-doc --with-test
 
       - run: opam install . --deps-only --with-doc --with-test
 
