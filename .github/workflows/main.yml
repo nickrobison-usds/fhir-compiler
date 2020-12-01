@@ -14,8 +14,8 @@ jobs:
           - ubuntu-latest
         ocaml-version:
           - 4.11.0
-          - 4.10.1
-          - 4.09.1
+          #- 4.10.1
+          #- 4.09.1
 
     runs-on: ${{ matrix.os }}
 
