@@ -11,3 +11,5 @@ val leading: t -> string
 val trailing: t -> string
 
 val length: t -> int
+
+val is_parent: t -> t -> bool
