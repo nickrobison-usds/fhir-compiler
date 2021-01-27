@@ -5,7 +5,7 @@ module Make
     (B: Backend.B)
 = struct
 
-  exception FileCreateion of string
+  exception FileCreation of string
 
   let emit_resource path resource =
     Lwt.return (B.emit path resource)
@@ -13,7 +13,7 @@ module Make
   let parse backend =
     let path = match Fpath.of_string "swifts/outputs" with
       | Ok p -> p
-      | _ -> raise (FileCreateion "can't")
+      | _ -> raise (FileCreation "can't")
     in
     let _ = Bos.OS.Dir.create path in
     Stdio.print_endline "Doing the parse";
