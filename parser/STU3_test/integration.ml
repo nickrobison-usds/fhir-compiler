@@ -14,7 +14,7 @@ let read file parser =
   Result.Ok (parser j)
 
 let sexpit _a =
-  Parsexp.Single.parse_string_exn "I'm a test"
+  Parsexp.Single.parse_string_exn "I'm a test, and should never be called"
 
 let () =
   let args = Array.to_list (Sys.get_argv ()) in

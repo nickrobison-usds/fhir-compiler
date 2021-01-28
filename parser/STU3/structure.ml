@@ -58,21 +58,17 @@ module STU3_Parser = struct
     let elem = Element.to_field e and
     pth = Element.path e in
     let pth', elem' = !previous in
-    Stdio.print_endline ((Path.to_string pth') ^ " is parent? " ^ (Path.to_string pth));
     if (Path.is_parent pth' pth) then (
-      Stdio.print_endline "Is parent";
       let c' = append_to_complex elem' elem in
       previous := (pth, c');
       []
     )
     else (
       previous := (pth, elem);
-      Stdio.print_endline ("Emitting:" ^ (Path.to_string pth'));
       [elem']
     )
 
   let handle_elements_inner hd tail =
-    Stdio.print_endline ("Starting with: " ^ (Path.to_string (Element.path hd)));
     let previous = ref (Element.path hd, Element.to_field hd) in
     let swapper = swap_and_emit previous in
     let rec h elements =
