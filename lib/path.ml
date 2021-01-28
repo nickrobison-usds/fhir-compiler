@@ -2,7 +2,7 @@ open! Base
 
 let sep = '.'
 
-type t = string list [@@deriving eq]
+type t = string list [@@deriving eq, sexp]
 
 let from_string s =
   String.split s ~on:sep

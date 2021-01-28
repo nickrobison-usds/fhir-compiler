@@ -1,6 +1,6 @@
 open! Base
 
-type t [@@deriving eq]
+type t [@@deriving eq, sexp]
 
 val from_string: string -> t
 

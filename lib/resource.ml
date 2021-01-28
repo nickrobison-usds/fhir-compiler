@@ -3,7 +3,7 @@ open! Base
 type 'a t = {
   name: string;
   fields: 'a Fhir.field list
-}
+} [@@deriving sexp_of]
 
 let make name fields =
   {

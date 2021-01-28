@@ -10,7 +10,7 @@ and ('a, 'b) field_ = {
   datatype: 'a fhir_datatype
 }
 and 'a field =
-  | Field: ('a, 'b) field_ -> 'a field
+  | Field: ('a, 'b) field_ -> 'a field [@@deriving sexp_of]
 and 'a fhir_datatype =
   | Scalar: ('a, 'b) scalar -> 'a fhir_datatype
   | Union: ('a, 'b) union -> 'a fhir_datatype

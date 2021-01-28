@@ -18,7 +18,7 @@ type datatype =
   | UnsignedInt
   | URI
   | UUID
-  | Xhtml
+  | Xhtml [@@deriving sexp]
 
 let datatype_of_string = function
   | "base64Binary" -> Base64Binary

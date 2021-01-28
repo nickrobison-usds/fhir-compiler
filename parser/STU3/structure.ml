@@ -50,7 +50,8 @@ module STU3_Parser = struct
               datatype = dtype
             })
           ))
-    | _, _ -> raise (Invalid_argument "Cannot append to empty field")
+    | None, Some a -> Some a
+    | _, _ -> None
 
 
   let swap_and_emit previous e =

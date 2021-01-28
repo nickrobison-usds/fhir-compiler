@@ -1,4 +1,14 @@
 (test
-  (name unit)
+ (name unit)
+  (modules unit reader resources)
   (libraries alcotest base bos yojson fhir_compiler.parser.stu3 logs.fmt logs.cli)
   (deps (source_tree resources)))
+
+(executable
+ (name integration)
+ (modules integration)
+ (libraries base bos yojson fhir_compiler.parser.stu3))
+
+(cram
+ (applies_to :whole_subtree)
+ (deps integration.exe (source_tree resources)))
