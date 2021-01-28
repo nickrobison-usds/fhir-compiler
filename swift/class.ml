@@ -38,7 +38,7 @@ let add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
           in
           {t with fields = value :: t.fields}
         | Complex c ->
-          let value = Swift_field.create c.l false c.typ false
+          let value = Swift_field.create c.l false Lib.Datatype.Code false
           in
           {t with fields = value :: t.fields}
       end
