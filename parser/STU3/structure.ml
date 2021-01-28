@@ -49,26 +49,29 @@ module STU3_Parser = struct
               id = c.id;
               datatype = dtype
             })
-          )
-      )
-    | _, _ -> raise (Invalid_argument "Cannot append to field")
+          ))
+    | _, _ -> raise (Invalid_argument "Cannot append to empty field")
 
 
   let swap_and_emit previous e =
     let elem = Element.to_field e and
     pth = Element.path e in
     let pth', elem' = !previous in
+    Stdio.print_endline ((Path.to_string pth') ^ " is parent? " ^ (Path.to_string pth));
     if (Path.is_parent pth' pth) then (
+      Stdio.print_endline "Is parent";
       let c' = append_to_complex elem' elem in
       previous := (pth, c');
       []
     )
     else (
       previous := (pth, elem);
+      Stdio.print_endline ("Emitting:" ^ (Path.to_string pth'));
       [elem']
     )
 
   let handle_elements_inner hd tail =
+    Stdio.print_endline ("Starting with: " ^ (Path.to_string (Element.path hd)));
     let previous = ref (Element.path hd, Element.to_field hd) in
     let swapper = swap_and_emit previous in
     let rec h elements =
@@ -77,13 +80,13 @@ module STU3_Parser = struct
       | [] -> []
     in
     let bound = h tail in
-    bound
+    bound @ [(snd !previous)]
 
   let handle_elements elements =
     match elements with
     | [] -> []
     | x :: [] -> [Element.to_field x]
-    | hd :: tail -> handle_elements_inner hd tail
+    | hd :: tail -> handle_elements_inner hd (List.rev tail)
 
   let to_resource t =
     let name = t.name in

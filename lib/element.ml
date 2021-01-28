@@ -78,15 +78,10 @@ let emit_arity t code =
     ft2 = Datatype.datatype_of_string code
   }
 
-let emit_complex t code =
+let emit_complex t =
   Fhir.Complex {
     l = replace_leading t.id;
-    components = [
-      Fhir.Scalar {
-        scalar_type = code;
-        required = false;
-      }
-    ]
+    components = []
   }
 
 let emit_single t code =
@@ -99,7 +94,7 @@ let emit_single t code =
   | false ->
     Log.debug (fun f -> f "Emitting complex");
     (* Fix this, we need to get the datatype*)
-    emit_complex t Datatype.Code
+    emit_complex t
 
 let emit_union t typs =
   let l = List.map ~f:(fun f -> f.code) typs in

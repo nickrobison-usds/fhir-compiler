@@ -1,4 +1,4 @@
 (test
   (name unit)
-  (libraries alcotest base bos yojson fhir_compiler.parser.stu3)
+  (libraries alcotest base bos yojson fhir_compiler.parser.stu3 logs.fmt logs.cli)
   (deps (source_tree resources)))
