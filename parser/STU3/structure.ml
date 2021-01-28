@@ -33,22 +33,61 @@ module STU3_Parser = struct
   let elements t =
     t.snapshot.element
 
-  let handle_elements elements =
-    let _previous = ref None in
+  let append_to_complex compl appender =
+    match compl, appender with
+    | Some c, Some a -> (
+        match c, a with
+        | Fhir.Field c, Fhir.Field a -> (
+            let dtype = match c.datatype with
+              | Fhir.Complex c -> Fhir.Complex {
+                  l = c.l;
+                  components = c.components @ [a.datatype];
+                }
+              | _ -> raise (Invalid_argument "Cannot add to non-complex") in
+            Some (Fhir.Field {
+              path = c.path;
+              id = c.id;
+              datatype = dtype
+            })
+          )
+      )
+    | _, _ -> raise (Invalid_argument "Cannot append to field")
+
+
+  let swap_and_emit previous e =
+    let elem = Element.to_field e and
+    pth = Element.path e in
+    let pth', elem' = !previous in
+    if (Path.is_parent pth' pth) then (
+      let c' = append_to_complex elem' elem in
+      previous := (pth, c');
+      []
+    )
+    else (
+      previous := (pth, elem);
+      [elem']
+    )
+
+  let handle_elements_inner hd tail =
+    let previous = ref (Element.path hd, Element.to_field hd) in
+    let swapper = swap_and_emit previous in
     let rec h elements =
       match elements with
-      | e :: lst -> Element.to_field e :: h lst
+      | e :: lst -> swapper e @ h lst
       | [] -> []
     in
-    h elements
+    let bound = h tail in
+    bound
 
+  let handle_elements elements =
+    match elements with
+    | [] -> []
+    | x :: [] -> [Element.to_field x]
+    | hd :: tail -> handle_elements_inner hd tail
 
   let to_resource t =
     let name = t.name in
     let fields = List.filter_opt (handle_elements (elements t)) in
-    (**let fields = List.filter_map (elements t) ~f:(fun e ->
-        Element.to_field e
-       ) in*)
     Resource.make name fields
 
   let to_fhir json =

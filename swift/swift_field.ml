@@ -9,7 +9,7 @@ type t = {
 
 let datatype_to_string =
   fun d ->
-  let open Lib.Fhir in
+  let open Lib.Datatype in
   match d with
   | Base64Binary | Code | ID | Markdown | OID | String | Xhtml -> "String"
   | Boolean -> "Bool"

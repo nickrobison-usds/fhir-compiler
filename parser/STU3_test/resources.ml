@@ -1,7 +1,7 @@
 open! Base
 open Alcotest
 
-let datatypeTest = testable (fun f t -> Fmt.pf f "%s" (Lib.Fhir.datatype_to_string t)) (fun l r -> String.equal (Lib.Fhir.datatype_to_string l) (Lib.Fhir.datatype_to_string r))
+let datatypeTest = testable (fun f t -> Fmt.pf f "%s" (Lib.Datatype.datatype_to_string t)) (fun l r -> String.equal (Lib.Datatype.datatype_to_string l) (Lib.Datatype.datatype_to_string r))
 
 let simple = Stu3.Structure.STU3_Parser.create "Account" "Simple"[Lib.Element.create "Elem.first" 0 "1" ["string"]]
 
@@ -11,7 +11,7 @@ let simple_field: type a. a Lib.Fhir.field -> unit =
   | Field field ->
     match field.datatype with
     | Scalar s -> begin
-        Alcotest.check datatypeTest "Should be a string" Lib.Fhir.String s.scalar_type;
+        Alcotest.check datatypeTest "Should be a string" Lib.Datatype.String s.scalar_type;
         Alcotest.(check bool) "Should not be required" false s.required
       end
     | _ -> Alcotest.fail "Must be a scalar"
@@ -24,7 +24,7 @@ match field with
 | Field field ->
 match field.datatype with
 | Arity a -> begin
-        Alcotest.check datatypeTest "Should be an integer" Lib.Fhir.Integer a.ft2;
+        Alcotest.check datatypeTest "Should be an integer" Lib.Datatype.Integer a.ft2;
 
 end
 
