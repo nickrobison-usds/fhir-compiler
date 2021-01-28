@@ -1,52 +1,4 @@
 open! Base
-open Exceptions
-
-type datatype =
-  | Base64Binary
-  | Boolean
-  | Code
-  | Date
-  | DateTime
-  | Decimal
-  | ID
-  | Instant
-  | Integer
-  | Markdown
-  | OID
-  | PositiveInt
-  | String
-  | Time
-  | UnsignedInt
-  | URI
-  | UUID
-  | Xhtml
-
-let datatype_of_string = function
-  | "base64Binary" -> Base64Binary
-  | "boolean" -> Boolean
-  | "code" -> Code
-  | "date" -> Date
-  | "dateTime" -> DateTime
-  | "decimal" -> Decimal
-  | "id" -> ID
-  | "instant" -> Instant
-  | "integer" -> Integer
-  | "markdown" -> Markdown
-  | "oid" -> OID
-  | "positiveInt" -> PositiveInt
-  | "string" -> String
-  | "time" -> Time
-  | "unsignedInt" -> UnsignedInt
-  | "uri" -> URI
-  | "uuid" -> UUID
-  | "xhtml" -> Xhtml
-  | s -> raise (UnsupportedType s)
-
-let datatype_to_string dt =
-match dt with
-  | String -> "string"
-| Integer -> "integer"
-  | _ -> raise (UnsupportedType "Can't with it")
 
 type 'a record = {
   record_path: string;
@@ -58,21 +10,21 @@ and ('a, 'b) field_ = {
   datatype: 'a fhir_datatype
 }
 and 'a field =
-  | Field: ('a, 'b) field_ -> 'a field
+  | Field: ('a, 'b) field_ -> 'a field [@@deriving sexp_of]
 and 'a fhir_datatype =
   | Scalar: ('a, 'b) scalar -> 'a fhir_datatype
   | Union: ('a, 'b) union -> 'a fhir_datatype
   | Arity: ('a, 'b) arity -> 'a fhir_datatype
   | Complex: ('a, 'b) complex -> 'a fhir_datatype
 and ('a, 'b) scalar = {
-  scalar_type: datatype;
+  scalar_type: Datatype.datatype;
   required: bool;
 }
 and ('a, 'b) arity = {
   l3: string;
   min: int;
   max: string;
-  ft2: datatype;
+  ft2: Datatype.datatype;
 }
 and ('a, 'b) union = {
   l2: string;
@@ -80,5 +32,9 @@ and ('a, 'b) union = {
 }
 and ('a, 'b) complex = {
   l: string;
-  typ: datatype;
+  components: 'a fhir_datatype list
 }
+
+
+let append_fields r field =
+  {r with fields = r.fields @ [field]}

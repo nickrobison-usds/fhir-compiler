@@ -65,7 +65,7 @@ let is_primitive s =
 let emit_scalar t code =
   Log.debug (fun f -> f "Emitting single max: %s" t.max);
   Fhir.Scalar {
-    scalar_type = Fhir.datatype_of_string code;
+    scalar_type = Datatype.datatype_of_string code;
     required = t.min >= 1;
   }
 
@@ -75,13 +75,13 @@ let emit_arity t code =
     l3 = replace_leading t.id;
     min = t.min;
     max = t.max;
-    ft2 = Fhir.datatype_of_string code
+    ft2 = Datatype.datatype_of_string code
   }
 
-let emit_complex t code =
+let emit_complex t =
   Fhir.Complex {
-    l = replace_leading t.path;
-    typ = code;
+    l = replace_leading t.id;
+    components = []
   }
 
 let emit_single t code =
@@ -94,7 +94,7 @@ let emit_single t code =
   | false ->
     Log.debug (fun f -> f "Emitting complex");
     (* Fix this, we need to get the datatype*)
-    emit_complex t Fhir.Code
+    emit_complex t
 
 let emit_union t typs =
   let l = List.map ~f:(fun f -> f.code) typs in
@@ -116,3 +116,6 @@ let to_field t =
       id = t.id;
       path = Path.from_string t.path;
       datatype = dt})
+
+let path t =
+  Path.from_string t.path

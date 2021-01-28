@@ -42,8 +42,7 @@ let setup_log style_renderer level =
   Fmt_tty.setup_std_outputs ?style_renderer ();
   Logs.set_level (Some Logs.Warning);
   enable_app_logging level;
-  (* This is bad, we shouldn't use deprecated features. *)
-  Logs.set_reporter (reporter Caml.Format.std_formatter);
+  Logs.set_reporter (reporter Fmt.stdout);
   ()
 
 let setup_log =
