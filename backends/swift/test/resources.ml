@@ -111,7 +111,14 @@ let account () =
           required = false
         }
     };
-    (* TODO: Subject here *)
+    F.Field {
+      path = pth_str "Account.subject";
+      id = "Account.subject";
+      datatype = F.Scalar {
+          scalar_type = D.Complex C.Reference;
+          required = false;
+        }
+    };
     F.Field {
       path = pth_str "Account.Period";
       id = "Account.Period";
@@ -137,7 +144,14 @@ let account () =
         }
     };
     (* TODO: Coverage here *)
-    (* TODO: Owner here *)
+    F.Field {
+      path = pth_str "Account.Owner";
+      id = "Account.Owner";
+      datatype = F.Scalar {
+          scalar_type = D.Complex C.Reference;
+          required = false;
+        }
+    };
     F.Field {
       path = pth_str "Account.Description";
       id = "Account.Description";

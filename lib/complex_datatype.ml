@@ -18,7 +18,8 @@ type t =
   | CodeableConcept
   | Signature
   | Coding
-  | Timing [@@deriving sexp]
+  | Timing
+  | Reference [@@deriving sexp]
 
 let t_of_string = function
   | "Ratio" -> Ratio
@@ -39,6 +40,7 @@ let t_of_string = function
   | "Signature" -> Signature
   | "Coding" -> Coding
   | "Timing" -> Timing
+  | "Reference" -> Reference
   | s -> raise (Exceptions.UnsupportedType s)
 
 let t_to_string = function
@@ -46,4 +48,5 @@ let t_to_string = function
   | Period -> "Period"
   | Money -> "Money"
   | CodeableConcept -> "CodeableConcept"
+  | Reference -> "Reference"
   | _ -> raise (Exceptions.UnsupportedType "Cannot convert this complex type yet")
