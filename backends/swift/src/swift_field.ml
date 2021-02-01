@@ -21,7 +21,7 @@ let simple_datatype_to_string =
 
 let datatype_to_string = function
   | Lib.Datatype.Simple s -> simple_datatype_to_string s
-  | Lib.Datatype.Complex _ -> raise (Invalid_argument "We don't do that yet")
+  | Lib.Datatype.Complex c -> Lib.Complex_datatype.t_to_string c
 
 let filter_name = function
   | "extension" -> "extension_fhir"

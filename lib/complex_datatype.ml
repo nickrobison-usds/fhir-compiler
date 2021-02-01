@@ -11,7 +11,10 @@ type t =
   | Address
   | ContactPoint
   | SampledData
-  | Quantity
+  | SimpleQuantity
+  | Duration
+  | Count
+  | Money
   | CodeableConcept
   | Signature
   | Coding
@@ -28,7 +31,10 @@ let t_of_string = function
   | "Address" -> Address
   | "ContactPoint" -> ContactPoint
   | "SampledData" -> SampledData
-  | "Quantity" -> Quantity
+  | "SimpleQuantity" -> SimpleQuantity
+  | "Duration" -> Duration
+  | "Count" -> Count
+  | "Money" -> Money
   | "CodeableConcept" -> Signature
   | "Signature" -> Signature
   | "Coding" -> Coding
@@ -38,4 +44,6 @@ let t_of_string = function
 let t_to_string = function
   | Ratio -> "Ratio"
   | Period -> "Period"
+  | Money -> "Money"
+  | CodeableConcept -> "CodeableConcept"
   | _ -> raise (Exceptions.UnsupportedType "Cannot convert this complex type yet")
