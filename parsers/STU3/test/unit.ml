@@ -45,7 +45,6 @@ let test_account_parse () =
   ()
 
 let () =
-  Logs.set_reporter (Logs_fmt.reporter ());
   run "STU3 Parser Tests" [
     "Resource Parsing Tests",
     [

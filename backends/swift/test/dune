@@ -1,0 +1,9 @@
+(test
+ (name unit)
+ (modules unit)
+ (libraries alcotest base bos fhir_compiler.backends.swift))
+
+(executable
+ (name integration)
+ (modules integration)
+ (libraries bos base fhir_compiler.backends.swift))
