@@ -34,9 +34,13 @@ let add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
           end
         | Union _ -> t
         | Arity f ->
-          let value = Swift_field.create f.l3 true f.ft2 false
+          let required = if (f.min) >= 1 then true else false in
+          let value = Swift_field.create f.l3 true f.ft2 required
           in
-          {t with fields = value :: t.fields}
+          if required then
+            {t with constructor = value :: t.constructor; fields = value :: t.fields}
+          else
+            {t with fields = value :: t.fields}
         | Complex c ->
           let value = Swift_field.create c.l false Lib.Datatype.Code false
           in
