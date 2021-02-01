@@ -150,16 +150,16 @@ let account () =
           name = "Coverage";
           fields = [
             F.Field {
-              path = pth_str "Account.Coverage.Coverage";
-              id = "Account.Coverage.Coverage";
+              path = pth_str "Account.coverage.Coverage";
+              id = "Account.coverage.Coverage";
               datatype = F.Scalar {
                   scalar_type = D.Complex C.Reference;
                   required = true;
                 }
             };
             F.Field {
-              path = pth_str "Account.Coverage.Priority";
-              id = "Account.Coverage.Priority";
+              path = pth_str "Account.Coverage.priority";
+              id = "Account.Coverage.priority";
               datatype = F.Scalar {
                   scalar_type = D.Simple P.Integer;
                   required = false;

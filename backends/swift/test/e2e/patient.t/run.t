@@ -23,7 +23,7 @@
   
   
    class Patient {
-  public var id: [String]?
+  public var Id: [String]?
                   
   public var Name: String
   
@@ -35,11 +35,11 @@
   
   
    class Patient {
-  public var id: [String]
+  public var Id: [String]
                   
   public var Name: String
   
-  init (id: [String], Name: String){
-  self.id=id
+  init (Id: [String], Name: String){
+  self.Id=Id
   self.Name=Name
   }}

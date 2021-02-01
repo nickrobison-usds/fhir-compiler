@@ -26,7 +26,7 @@ let datatype_to_string = function
 
 let filter_name = function
   | "extension" -> "extension_fhir"
-  | s -> s
+  | s -> String.capitalize s
 
 let create name multiple typ required =
   {name = filter_name name; multiple; typ = datatype_to_string typ; required}

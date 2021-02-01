@@ -14,7 +14,7 @@ type t = {
 }
 
 let make_nested_class_name t name =
-  Printf.sprintf "%s%s" t.name name
+  Printf.sprintf "%s%s" t.name (String.capitalize name)
 
 let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
   fun t _path field ->
