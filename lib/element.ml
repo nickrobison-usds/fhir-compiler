@@ -59,8 +59,8 @@ let primitive = Re.Posix.compile_pat "^[a-z][A-Za-z]+$"
 let replace_leading s =
   Re.replace_string reg ~by:"" s
 
-let is_primitive s =
-  not (List.is_empty (Re.matches primitive s))
+let is_primitive_or_class s =
+  not (String.equal s "BackboneElement") || not (List.is_empty (Re.matches primitive s))
 
 let emit_scalar t code =
   Log.debug (fun f -> f "Emitting single max: %s" t.max);
@@ -85,7 +85,7 @@ let emit_complex t =
   }
 
 let emit_single t code =
-  match is_primitive code with
+  match is_primitive_or_class code with
   | true ->
     Log.debug (fun f -> f "Emitting primitive");
     (match t.max with

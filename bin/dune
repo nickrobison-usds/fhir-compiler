@@ -1,4 +1,4 @@
 (executable
  (name main)
  (public_name fhirc)
- (libraries base fhir_compiler.swift cmdliner dune-build-info fhir_compiler.parser.stu3 lwt logs.fmt logs.cli fmt.cli fmt.tty))
+ (libraries base fhir_compiler.backends.swift cmdliner dune-build-info fhir_compiler.parser.stu3 lwt logs.fmt logs.cli fmt.cli fmt.tty))
