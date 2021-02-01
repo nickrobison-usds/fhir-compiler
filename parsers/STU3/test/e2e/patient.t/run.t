@@ -8,33 +8,36 @@
         (Union
          ((l2 other)
           (field_types
-           ((Complex ((l other) (components ())))
-            (Complex ((l other) (components ()))))))))))
+           ((Complex ((name other) (fields ())))
+            (Complex ((name other) (fields ()))))))))))
      (Field
       ((path (Patient link modifierExtension))
        (id Patient.link.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Patient link extension)) (id Patient.link.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Patient link)) (id Patient.link)
        (datatype
         (Complex
-         ((l link)
-          (components
-           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
+         ((name link)
+          (fields
+           ((Field
+             ((path (Patient link id)) (id Patient.link.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Patient managingOrganization)) (id Patient.managingOrganization)
-       (datatype (Complex ((l managingOrganization) (components ()))))))
+       (datatype (Complex ((name managingOrganization) (fields ()))))))
      (Field
       ((path (Patient generalPractitioner)) (id Patient.generalPractitioner)
        (datatype
         (Union
          ((l2 generalPractitioner)
           (field_types
-           ((Complex ((l generalPractitioner) (components ())))
-            (Complex ((l generalPractitioner) (components ()))))))))))
+           ((Complex ((name generalPractitioner) (fields ())))
+            (Complex ((name generalPractitioner) (fields ()))))))))))
      (Field
       ((path (Patient communication preferred))
        (id Patient.communication.preferred)
@@ -42,83 +45,92 @@
      (Field
       ((path (Patient communication language))
        (id Patient.communication.language)
-       (datatype (Complex ((l language) (components ()))))))
+       (datatype (Complex ((name language) (fields ()))))))
      (Field
       ((path (Patient communication modifierExtension))
        (id Patient.communication.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Patient communication extension))
        (id Patient.communication.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Patient communication)) (id Patient.communication)
        (datatype
         (Complex
-         ((l communication)
-          (components
-           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
+         ((name communication)
+          (fields
+           ((Field
+             ((path (Patient communication id)) (id Patient.communication.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Patient animal genderStatus)) (id Patient.animal.genderStatus)
-       (datatype (Complex ((l genderStatus) (components ()))))))
+       (datatype (Complex ((name genderStatus) (fields ()))))))
      (Field
       ((path (Patient animal breed)) (id Patient.animal.breed)
-       (datatype (Complex ((l breed) (components ()))))))
+       (datatype (Complex ((name breed) (fields ()))))))
      (Field
       ((path (Patient animal species)) (id Patient.animal.species)
-       (datatype (Complex ((l species) (components ()))))))
+       (datatype (Complex ((name species) (fields ()))))))
      (Field
       ((path (Patient animal modifierExtension))
        (id Patient.animal.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Patient animal extension)) (id Patient.animal.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Patient animal)) (id Patient.animal)
        (datatype
         (Complex
-         ((l animal)
-          (components
-           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
+         ((name animal)
+          (fields
+           ((Field
+             ((path (Patient animal id)) (id Patient.animal.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Patient contact period)) (id Patient.contact.period)
-       (datatype (Complex ((l period) (components ()))))))
+       (datatype (Complex ((name period) (fields ()))))))
      (Field
       ((path (Patient contact organization)) (id Patient.contact.organization)
-       (datatype (Complex ((l organization) (components ()))))))
+       (datatype (Complex ((name organization) (fields ()))))))
      (Field
       ((path (Patient contact gender)) (id Patient.contact.gender)
        (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Patient contact address)) (id Patient.contact.address)
-       (datatype (Complex ((l address) (components ()))))))
+       (datatype (Complex ((name address) (fields ()))))))
      (Field
       ((path (Patient contact telecom)) (id Patient.contact.telecom)
-       (datatype (Complex ((l telecom) (components ()))))))
+       (datatype (Complex ((name telecom) (fields ()))))))
      (Field
       ((path (Patient contact name)) (id Patient.contact.name)
-       (datatype (Complex ((l name) (components ()))))))
+       (datatype (Complex ((name name) (fields ()))))))
      (Field
       ((path (Patient contact relationship)) (id Patient.contact.relationship)
-       (datatype (Complex ((l relationship) (components ()))))))
+       (datatype (Complex ((name relationship) (fields ()))))))
      (Field
       ((path (Patient contact modifierExtension))
        (id Patient.contact.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Patient contact extension)) (id Patient.contact.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Patient contact)) (id Patient.contact)
        (datatype
         (Complex
-         ((l contact)
-          (components
-           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
+         ((name contact)
+          (fields
+           ((Field
+             ((path (Patient contact id)) (id Patient.contact.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Patient photo)) (id Patient.photo)
-       (datatype (Complex ((l photo) (components ()))))))
+       (datatype (Complex ((name photo) (fields ()))))))
      (Field
       ((path (Patient multipleBirth[x])) (id Patient.multipleBirth[x])
        (datatype
@@ -129,10 +141,10 @@
             (Scalar ((scalar_type (Simple Integer)) (required false))))))))))
      (Field
       ((path (Patient maritalStatus)) (id Patient.maritalStatus)
-       (datatype (Complex ((l maritalStatus) (components ()))))))
+       (datatype (Complex ((name maritalStatus) (fields ()))))))
      (Field
       ((path (Patient address)) (id Patient.address)
-       (datatype (Complex ((l address) (components ()))))))
+       (datatype (Complex ((name address) (fields ()))))))
      (Field
       ((path (Patient deceased[x])) (id Patient.deceased[x])
        (datatype
@@ -149,28 +161,28 @@
        (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Patient telecom)) (id Patient.telecom)
-       (datatype (Complex ((l telecom) (components ()))))))
+       (datatype (Complex ((name telecom) (fields ()))))))
      (Field
       ((path (Patient name)) (id Patient.name)
-       (datatype (Complex ((l name) (components ()))))))
+       (datatype (Complex ((name name) (fields ()))))))
      (Field
       ((path (Patient active)) (id Patient.active)
        (datatype (Scalar ((scalar_type (Simple Boolean)) (required false))))))
      (Field
       ((path (Patient identifier)) (id Patient.identifier)
-       (datatype (Complex ((l identifier) (components ()))))))
+       (datatype (Complex ((name identifier) (fields ()))))))
      (Field
       ((path (Patient modifierExtension)) (id Patient.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Patient extension)) (id Patient.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Patient contained)) (id Patient.contained)
-       (datatype (Complex ((l contained) (components ()))))))
+       (datatype (Complex ((name contained) (fields ()))))))
      (Field
       ((path (Patient text)) (id Patient.text)
-       (datatype (Complex ((l text) (components ()))))))
+       (datatype (Complex ((name text) (fields ()))))))
      (Field
       ((path (Patient language)) (id Patient.language)
        (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
@@ -179,7 +191,7 @@
        (datatype (Scalar ((scalar_type (Simple URI)) (required false))))))
      (Field
       ((path (Patient meta)) (id Patient.meta)
-       (datatype (Complex ((l meta) (components ()))))))
+       (datatype (Complex ((name meta) (fields ()))))))
      (Field
       ((path (Patient id)) (id Patient.id)
        (datatype (Scalar ((scalar_type (Simple ID)) (required false))))))

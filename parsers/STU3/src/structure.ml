@@ -37,11 +37,11 @@ module STU3_Parser = struct
     match compl, appender with
     | Some c, Some a -> (
         match c, a with
-        | Fhir.Field c, Fhir.Field a -> (
+        | Fhir.Field c, Fhir.Field _a2 -> (
             let dtype = match c.datatype with
               | Fhir.Complex c -> Fhir.Complex {
-                  l = c.l;
-                  components = c.components @ [a.datatype];
+                  name = c.name;
+                  fields = c.fields @ [a];
                 }
               | _ -> raise (Invalid_argument "Cannot add to non-complex") in
             Some (Fhir.Field {

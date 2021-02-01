@@ -10,47 +10,45 @@ type t = {
   parent: t option list;
   fields: Swift_field.t list;
   constructor: Swift_field.t list;
+  nested_classes: t list;
 }
 
-let add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
+let make_nested_class_name t name =
+  Printf.sprintf "%s%s" t.name name
+
+let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
   fun t _path field ->
   match field with
   | Field field ->
-    if Lib.Path.length field.path > 2 then
-      begin
-        Log.debug (fun f -> f "Skipping field: %s" (Lib.Path.to_string field.path));
-        t
-      end
-    else
-      begin
-        match field.datatype with
-        | Scalar f -> begin
-            let value = Swift_field.create (Lib.Path.trailing field.path) false f.scalar_type f.required
-            in
-            if f.required then
-              {t with constructor = value :: t.constructor; fields = value :: t.fields}
-            else
-              {t with fields = value :: t.fields}
-          end
-        | Union _ -> t
-        | Arity f ->
-          let required = if (f.min) >= 1 then true else false in
-          let value = Swift_field.create f.l3 true f.ft2 required
-          in
-          if required then
-            {t with constructor = value :: t.constructor; fields = value :: t.fields}
-          else
-            {t with fields = value :: t.fields}
-        | Complex c ->
-          let value = Swift_field.create c.l false (Lib.Datatype.Simple (Lib.Simple_datatype.Code)) false
-          in
+    match field.datatype with
+    | Scalar f -> begin
+        let value = Swift_field.create (Lib.Path.trailing field.path) false f.scalar_type f.required
+        in
+        if f.required then
+          {t with constructor = value :: t.constructor; fields = value :: t.fields}
+        else
           {t with fields = value :: t.fields}
       end
-
-let create: type a. a Lib.Resource.t -> t =
+    | Union _ -> t
+    | Arity f ->
+      let required = if (f.min) >= 1 then true else false in
+      let value = Swift_field.create f.l3 true f.ft2 required
+      in
+      if required then
+        {t with constructor = value :: t.constructor; fields = value :: t.fields}
+      else
+        {t with fields = value :: t.fields}
+    | Complex c ->
+      let nested_name = make_nested_class_name t c.name in
+      let value = Swift_field.create c.name false (Lib.Datatype.Domain nested_name) false
+      in
+      {t with fields = value :: t.fields; nested_classes = (create (
+           Lib.Resource.make nested_name c.fields
+         )) :: t.nested_classes}
+and create: type a. a Lib.Resource.t -> t =
   fun res ->
   let path = Lib.Path.from_string res.name in
-  let empty = {name = res.name; is_open = false; parent = []; fields = []; constructor = []}
+  let empty = {name = res.name; is_open = false; parent = []; fields = []; constructor = []; nested_classes = []}
   in
   List.fold res.fields ~init:empty ~f:(fun acc f -> add_field acc path f)
 
@@ -76,16 +74,25 @@ let emit_class_body fmt t =
   in
   Fmt.pf fmt "%a\n\n%a" fields t.fields emit_constructor t
 
+(* Emit class [t] as a string, along with any nested classes.
+   This will be written as a single Swift file *)
 let emit_class t =
-  Fmt.str "%a %a class %s %a"
-    Prelude.emit ()
-    emit_open t
-    t.name
-    (Fmt.braces emit_class_body) t
+  let lst = List.append [t] t.nested_classes in
+  let init = Fmt.str "%a" Prelude.emit() in
+  List.fold lst ~init ~f:(fun acc c ->
+      let class_str = Fmt.str "%a class %s %a"
+          emit_open c
+          c.name
+          (Fmt.braces emit_class_body) c
+      in
+      Fmt.str "%s\n\n%s" acc class_str
+    )
+
 
 let write_to_file t =
   fun oc ->
-  Stdio.Out_channel.output_string oc (emit_class t)
+  Stdio.Out_channel.output_string oc (emit_class t);
+  List.iter t.nested_classes ~f:(fun c -> Stdio.Out_channel.output_string oc (emit_class c))
 
 let emit path t =
   let path = Fpath.add_seg path  (Fmt.str "%s.swift" t.name) in

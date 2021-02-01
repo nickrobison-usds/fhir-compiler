@@ -74,7 +74,7 @@ let complex_test () =
     match c with
     | Field c ->
       match c.datatype with
-        | Lib.Fhir.Complex c -> List.length c.components
+        | Lib.Fhir.Complex c -> List.length c.fields
         | _ -> Alcotest.fail "Must be complex")
 let test =
   "Resource Building Tests", [

@@ -11,95 +11,101 @@
         (Union
          ((l2 party)
           (field_types
-           ((Complex ((l party) (components ())))
-            (Complex ((l party) (components ())))
-            (Complex ((l party) (components ()))))))))))
+           ((Complex ((name party) (fields ())))
+            (Complex ((name party) (fields ())))
+            (Complex ((name party) (fields ()))))))))))
      (Field
       ((path (Account guarantor modifierExtension))
        (id Account.guarantor.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Account guarantor extension)) (id Account.guarantor.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Account guarantor)) (id Account.guarantor)
        (datatype
         (Complex
-         ((l guarantor)
-          (components
-           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
+         ((name guarantor)
+          (fields
+           ((Field
+             ((path (Account guarantor id)) (id Account.guarantor.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Account description)) (id Account.description)
        (datatype (Scalar ((scalar_type (Simple String)) (required false))))))
      (Field
       ((path (Account owner)) (id Account.owner)
-       (datatype (Complex ((l owner) (components ()))))))
+       (datatype (Complex ((name owner) (fields ()))))))
      (Field
       ((path (Account coverage priority)) (id Account.coverage.priority)
        (datatype
         (Scalar ((scalar_type (Simple PositiveInt)) (required false))))))
      (Field
       ((path (Account coverage coverage)) (id Account.coverage.coverage)
-       (datatype (Complex ((l coverage) (components ()))))))
+       (datatype (Complex ((name coverage) (fields ()))))))
      (Field
       ((path (Account coverage modifierExtension))
        (id Account.coverage.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Account coverage extension)) (id Account.coverage.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Account coverage)) (id Account.coverage)
        (datatype
         (Complex
-         ((l coverage)
-          (components
-           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
+         ((name coverage)
+          (fields
+           ((Field
+             ((path (Account coverage id)) (id Account.coverage.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Account balance)) (id Account.balance)
-       (datatype (Complex ((l balance) (components ()))))))
+       (datatype (Complex ((name balance) (fields ()))))))
      (Field
       ((path (Account active)) (id Account.active)
-       (datatype (Complex ((l active) (components ()))))))
+       (datatype (Complex ((name active) (fields ()))))))
      (Field
       ((path (Account period)) (id Account.period)
-       (datatype (Complex ((l period) (components ()))))))
+       (datatype (Complex ((name period) (fields ()))))))
      (Field
       ((path (Account subject)) (id Account.subject)
        (datatype
         (Union
          ((l2 subject)
           (field_types
-           ((Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ()))))))))))
+           ((Complex ((name subject) (fields ())))
+            (Complex ((name subject) (fields ())))
+            (Complex ((name subject) (fields ())))
+            (Complex ((name subject) (fields ())))
+            (Complex ((name subject) (fields ())))
+            (Complex ((name subject) (fields ()))))))))))
      (Field
       ((path (Account name)) (id Account.name)
        (datatype (Scalar ((scalar_type (Simple String)) (required false))))))
      (Field
       ((path (Account type)) (id Account.type)
-       (datatype (Complex ((l type) (components ()))))))
+       (datatype (Complex ((name type) (fields ()))))))
      (Field
       ((path (Account status)) (id Account.status)
        (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Account identifier)) (id Account.identifier)
-       (datatype (Complex ((l identifier) (components ()))))))
+       (datatype (Complex ((name identifier) (fields ()))))))
      (Field
       ((path (Account modifierExtension)) (id Account.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype (Complex ((name modifierExtension) (fields ()))))))
      (Field
       ((path (Account extension)) (id Account.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype (Complex ((name extension) (fields ()))))))
      (Field
       ((path (Account contained)) (id Account.contained)
-       (datatype (Complex ((l contained) (components ()))))))
+       (datatype (Complex ((name contained) (fields ()))))))
      (Field
       ((path (Account text)) (id Account.text)
-       (datatype (Complex ((l text) (components ()))))))
+       (datatype (Complex ((name text) (fields ()))))))
      (Field
       ((path (Account language)) (id Account.language)
        (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
@@ -108,10 +114,10 @@
        (datatype (Scalar ((scalar_type (Simple URI)) (required false))))))
      (Field
       ((path (Account meta)) (id Account.meta)
-       (datatype (Complex ((l meta) (components ()))))))
+       (datatype (Complex ((name meta) (fields ()))))))
      (Field
       ((path (Account id)) (id Account.id)
        (datatype (Scalar ((scalar_type (Simple ID)) (required false))))))
      (Field
       ((path (Account guarantor period)) (id Account.guarantor.period)
-       (datatype (Complex ((l period) (components ())))))))))hello
+       (datatype (Complex ((name period) (fields ())))))))))hello

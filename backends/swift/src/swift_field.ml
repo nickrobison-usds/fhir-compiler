@@ -22,6 +22,7 @@ let simple_datatype_to_string =
 let datatype_to_string = function
   | Lib.Datatype.Simple s -> simple_datatype_to_string s
   | Lib.Datatype.Complex c -> Lib.Complex_datatype.t_to_string c
+  | Lib.Datatype.Domain d -> d
 
 let filter_name = function
   | "extension" -> "extension_fhir"
@@ -44,4 +45,4 @@ let emit_field_optional fmt v =
   Fmt.pf fmt "%s" str
 
 let emit fmt t =
-  Fmt.pf fmt "public var %a%a" emit_name_value_pair t emit_field_optional t
+  Fmt.pf fmt "\npublic var %a%a" emit_name_value_pair t emit_field_optional t

@@ -37,12 +37,12 @@ type t = {
 
 let create name min max typs =
   let typs = List.map typs ~f:(fun typ -> {
-      code = typ;
-      profile = None;
-      aggregation = [];
-      versioning = None;
-      targetProfile = None;
-    }) in
+        code = typ;
+        profile = None;
+        aggregation = [];
+        versioning = None;
+        targetProfile = None;
+      }) in
   {
     path = name;
     id = name;
@@ -80,8 +80,8 @@ let emit_arity t code =
 
 let emit_complex t =
   Fhir.Complex {
-    l = replace_leading t.id;
-    components = []
+    name = replace_leading t.id;
+    fields = []
   }
 
 let emit_single t code =

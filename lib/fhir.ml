@@ -2,7 +2,7 @@ open! Base
 
 type 'a record = {
   record_path: string;
-  fields: 'a fhir_datatype list;
+  dtypes: 'a fhir_datatype list;
 }
 and ('a, 'b) field_ = {
   path: Path.t;
@@ -31,8 +31,8 @@ and ('a, 'b) union = {
   field_types: 'a fhir_datatype list;
 }
 and ('a, 'b) complex = {
-  l: string;
-  components: 'a fhir_datatype list
+  name: string;
+  fields: 'a field list
 }
 
 
