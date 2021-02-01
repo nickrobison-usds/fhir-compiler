@@ -5,5 +5,9 @@
 
 (executable
  (name integration)
- (modules integration)
- (libraries bos base fhir_compiler.backends.swift))
+ (modules integration resources)
+ (libraries bos base fhir_compiler.lib fhir_compiler.backends.swift))
+
+(cram
+ (applies_to :whole_subtree)
+ (deps integration.exe (source_tree resources)))
