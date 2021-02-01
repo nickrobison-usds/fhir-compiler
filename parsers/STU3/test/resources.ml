@@ -3,7 +3,7 @@ open Alcotest
 
 module S = Stu3.Structure.STU3_Parser
 
-let datatypeTest = testable (fun f t -> Fmt.pf f "%s" (Lib.Datatype.datatype_to_string t)) (fun l r -> String.equal (Lib.Datatype.datatype_to_string l) (Lib.Datatype.datatype_to_string r))
+let datatypeTest = testable (fun f t -> Fmt.pf f "%s" (Lib.Datatype.t_to_string t)) (fun l r -> String.equal (Lib.Datatype.t_to_string l) (Lib.Datatype.t_to_string r))
 
 let simple = S.create "Account" "Simple"[Lib.Element.create "Elem.first" 0 "1" ["string"]]
 
@@ -13,7 +13,7 @@ let simple_field: type a. a Lib.Fhir.field -> unit =
   | Field field ->
     match field.datatype with
     | Scalar s -> begin
-        Alcotest.check datatypeTest "Should be a string" Lib.Datatype.String s.scalar_type;
+        Alcotest.check datatypeTest "Should be a string" (Lib.Datatype.Simple (Lib.Simple_datatype.String)) s.scalar_type;
         Alcotest.(check bool) "Should not be required" false s.required
       end
     | _ -> Alcotest.fail "Must be a scalar"
@@ -26,7 +26,7 @@ match field with
 | Field field ->
 match field.datatype with
 | Arity a -> begin
-        Alcotest.check datatypeTest "Should be an integer" Lib.Datatype.Integer a.ft2;
+        Alcotest.check datatypeTest "Should be an integer" (Lib.Datatype.Simple (Lib.Simple_datatype.Integer)) a.ft2;
 
 end
 
@@ -74,7 +74,7 @@ let complex_test () =
     match c with
     | Field c ->
       match c.datatype with
-        | Lib.Fhir.Complex c -> List.length c.components
+        | Lib.Fhir.Complex c -> List.length c.fields
         | _ -> Alcotest.fail "Must be complex")
 let test =
   "Resource Building Tests", [

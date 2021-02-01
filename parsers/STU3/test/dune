@@ -1,7 +1,7 @@
 (test
  (name unit)
   (modules unit reader resources)
-  (libraries alcotest base bos yojson fhir_compiler.parser.stu3 logs.fmt logs.cli)
+  (libraries alcotest base bos yojson fhir_compiler.parser.stu3)
   (deps (source_tree resources)))
 
 (executable

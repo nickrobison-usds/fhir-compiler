@@ -37,12 +37,12 @@ type t = {
 
 let create name min max typs =
   let typs = List.map typs ~f:(fun typ -> {
-      code = typ;
-      profile = None;
-      aggregation = [];
-      versioning = None;
-      targetProfile = None;
-    }) in
+        code = typ;
+        profile = None;
+        aggregation = [];
+        versioning = None;
+        targetProfile = None;
+      }) in
   {
     path = name;
     id = name;
@@ -59,13 +59,13 @@ let primitive = Re.Posix.compile_pat "^[a-z][A-Za-z]+$"
 let replace_leading s =
   Re.replace_string reg ~by:"" s
 
-let is_primitive s =
-  not (List.is_empty (Re.matches primitive s))
+let is_primitive_or_class s =
+  not (String.equal s "BackboneElement") || not (List.is_empty (Re.matches primitive s))
 
 let emit_scalar t code =
   Log.debug (fun f -> f "Emitting single max: %s" t.max);
   Fhir.Scalar {
-    scalar_type = Datatype.datatype_of_string code;
+    scalar_type = Datatype.t_of_string code;
     required = t.min >= 1;
   }
 
@@ -75,17 +75,17 @@ let emit_arity t code =
     l3 = replace_leading t.id;
     min = t.min;
     max = t.max;
-    ft2 = Datatype.datatype_of_string code
+    ft2 = Datatype.t_of_string code
   }
 
 let emit_complex t =
   Fhir.Complex {
-    l = replace_leading t.id;
-    components = []
+    name = replace_leading t.id;
+    fields = []
   }
 
 let emit_single t code =
-  match is_primitive code with
+  match is_primitive_or_class code with
   | true ->
     Log.debug (fun f -> f "Emitting primitive");
     (match t.max with

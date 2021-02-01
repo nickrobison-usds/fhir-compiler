@@ -2,7 +2,7 @@ open! Base
 
 type 'a record = {
   record_path: string;
-  fields: 'a fhir_datatype list;
+  dtypes: 'a fhir_datatype list;
 }
 and ('a, 'b) field_ = {
   path: Path.t;
@@ -17,22 +17,22 @@ and 'a fhir_datatype =
   | Arity: ('a, 'b) arity -> 'a fhir_datatype
   | Complex: ('a, 'b) complex -> 'a fhir_datatype
 and ('a, 'b) scalar = {
-  scalar_type: Datatype.datatype;
+  scalar_type: Datatype.t;
   required: bool;
 }
 and ('a, 'b) arity = {
   l3: string;
   min: int;
   max: string;
-  ft2: Datatype.datatype;
+  ft2: Datatype.t;
 }
 and ('a, 'b) union = {
   l2: string;
   field_types: 'a fhir_datatype list;
 }
 and ('a, 'b) complex = {
-  l: string;
-  components: 'a fhir_datatype list
+  name: string;
+  fields: 'a field list
 }
 
 

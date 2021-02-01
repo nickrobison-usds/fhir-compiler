@@ -7,9 +7,9 @@ type t = {
   required: bool;
 }
 
-let datatype_to_string =
+let simple_datatype_to_string =
   fun d ->
-  let open Lib.Datatype in
+  let open Lib.Simple_datatype in
   match d with
   | Base64Binary | Code | ID | Markdown | OID | String | Xhtml -> "String"
   | Boolean -> "Bool"
@@ -19,9 +19,14 @@ let datatype_to_string =
   | URI -> "URL"
   | UUID -> "UUID"
 
+let datatype_to_string = function
+  | Lib.Datatype.Simple s -> simple_datatype_to_string s
+  | Lib.Datatype.Complex c -> Lib.Complex_datatype.t_to_string c
+  | Lib.Datatype.Domain d -> d
+
 let filter_name = function
   | "extension" -> "extension_fhir"
-  | s -> s
+  | s -> String.capitalize s
 
 let create name multiple typ required =
   {name = filter_name name; multiple; typ = datatype_to_string typ; required}
@@ -40,4 +45,4 @@ let emit_field_optional fmt v =
   Fmt.pf fmt "%s" str
 
 let emit fmt t =
-  Fmt.pf fmt "public var %a%a" emit_name_value_pair t emit_field_optional t
+  Fmt.pf fmt "\npublic var %a%a" emit_name_value_pair t emit_field_optional t

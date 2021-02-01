@@ -4,111 +4,131 @@
    (fields
     ((Field
       ((path (Account guarantor onHold)) (id Account.guarantor.onHold)
-       (datatype (Scalar ((scalar_type Boolean) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Boolean)) (required false))))))
      (Field
       ((path (Account guarantor party)) (id Account.guarantor.party)
        (datatype
         (Union
          ((l2 party)
           (field_types
-           ((Complex ((l party) (components ())))
-            (Complex ((l party) (components ())))
-            (Complex ((l party) (components ()))))))))))
+           ((Scalar ((scalar_type (Complex Reference)) (required true)))
+            (Scalar ((scalar_type (Complex Reference)) (required true)))
+            (Scalar ((scalar_type (Complex Reference)) (required true))))))))))
      (Field
       ((path (Account guarantor modifierExtension))
        (id Account.guarantor.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype
+        (Arity
+         ((l3 modifierExtension) (min 0) (max *) (ft2 (Domain Extension)))))))
      (Field
       ((path (Account guarantor extension)) (id Account.guarantor.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype
+        (Arity ((l3 extension) (min 0) (max *) (ft2 (Domain Extension)))))))
      (Field
       ((path (Account guarantor)) (id Account.guarantor)
        (datatype
         (Complex
-         ((l guarantor)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+         ((name guarantor)
+          (fields
+           ((Field
+             ((path (Account guarantor id)) (id Account.guarantor.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Account description)) (id Account.description)
-       (datatype (Scalar ((scalar_type String) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple String)) (required false))))))
      (Field
       ((path (Account owner)) (id Account.owner)
-       (datatype (Complex ((l owner) (components ()))))))
+       (datatype (Scalar ((scalar_type (Complex Reference)) (required false))))))
      (Field
       ((path (Account coverage priority)) (id Account.coverage.priority)
-       (datatype (Scalar ((scalar_type PositiveInt) (required false))))))
+       (datatype
+        (Scalar ((scalar_type (Simple PositiveInt)) (required false))))))
      (Field
       ((path (Account coverage coverage)) (id Account.coverage.coverage)
-       (datatype (Complex ((l coverage) (components ()))))))
+       (datatype (Scalar ((scalar_type (Complex Reference)) (required true))))))
      (Field
       ((path (Account coverage modifierExtension))
        (id Account.coverage.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype
+        (Arity
+         ((l3 modifierExtension) (min 0) (max *) (ft2 (Domain Extension)))))))
      (Field
       ((path (Account coverage extension)) (id Account.coverage.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype
+        (Arity ((l3 extension) (min 0) (max *) (ft2 (Domain Extension)))))))
      (Field
       ((path (Account coverage)) (id Account.coverage)
        (datatype
         (Complex
-         ((l coverage)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+         ((name coverage)
+          (fields
+           ((Field
+             ((path (Account coverage id)) (id Account.coverage.id)
+              (datatype
+               (Scalar ((scalar_type (Simple String)) (required false)))))))))))))
      (Field
       ((path (Account balance)) (id Account.balance)
-       (datatype (Complex ((l balance) (components ()))))))
+       (datatype (Scalar ((scalar_type (Complex Money)) (required false))))))
      (Field
       ((path (Account active)) (id Account.active)
-       (datatype (Complex ((l active) (components ()))))))
+       (datatype (Scalar ((scalar_type (Complex Period)) (required false))))))
      (Field
       ((path (Account period)) (id Account.period)
-       (datatype (Complex ((l period) (components ()))))))
+       (datatype (Scalar ((scalar_type (Complex Period)) (required false))))))
      (Field
       ((path (Account subject)) (id Account.subject)
        (datatype
         (Union
          ((l2 subject)
           (field_types
-           ((Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ())))
-            (Complex ((l subject) (components ()))))))))))
+           ((Scalar ((scalar_type (Complex Reference)) (required false)))
+            (Scalar ((scalar_type (Complex Reference)) (required false)))
+            (Scalar ((scalar_type (Complex Reference)) (required false)))
+            (Scalar ((scalar_type (Complex Reference)) (required false)))
+            (Scalar ((scalar_type (Complex Reference)) (required false)))
+            (Scalar ((scalar_type (Complex Reference)) (required false))))))))))
      (Field
       ((path (Account name)) (id Account.name)
-       (datatype (Scalar ((scalar_type String) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple String)) (required false))))))
      (Field
       ((path (Account type)) (id Account.type)
-       (datatype (Complex ((l type) (components ()))))))
+       (datatype (Scalar ((scalar_type (Complex Signature)) (required false))))))
      (Field
       ((path (Account status)) (id Account.status)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Account identifier)) (id Account.identifier)
-       (datatype (Complex ((l identifier) (components ()))))))
+       (datatype
+        (Arity ((l3 identifier) (min 0) (max *) (ft2 (Complex Identifier)))))))
      (Field
       ((path (Account modifierExtension)) (id Account.modifierExtension)
-       (datatype (Complex ((l modifierExtension) (components ()))))))
+       (datatype
+        (Arity
+         ((l3 modifierExtension) (min 0) (max *) (ft2 (Domain Extension)))))))
      (Field
       ((path (Account extension)) (id Account.extension)
-       (datatype (Complex ((l extension) (components ()))))))
+       (datatype
+        (Arity ((l3 extension) (min 0) (max *) (ft2 (Domain Extension)))))))
      (Field
       ((path (Account contained)) (id Account.contained)
-       (datatype (Complex ((l contained) (components ()))))))
+       (datatype
+        (Arity ((l3 contained) (min 0) (max *) (ft2 (Domain Resource)))))))
      (Field
       ((path (Account text)) (id Account.text)
-       (datatype (Complex ((l text) (components ()))))))
+       (datatype (Scalar ((scalar_type (Domain Narrative)) (required false))))))
      (Field
       ((path (Account language)) (id Account.language)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Account implicitRules)) (id Account.implicitRules)
-       (datatype (Scalar ((scalar_type URI) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple URI)) (required false))))))
      (Field
       ((path (Account meta)) (id Account.meta)
-       (datatype (Complex ((l meta) (components ()))))))
+       (datatype (Scalar ((scalar_type (Domain Meta)) (required false))))))
      (Field
       ((path (Account id)) (id Account.id)
-       (datatype (Scalar ((scalar_type ID) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple ID)) (required false))))))
      (Field
       ((path (Account guarantor period)) (id Account.guarantor.period)
-       (datatype (Complex ((l period) (components ())))))))))hello
+       (datatype (Scalar ((scalar_type (Complex Period)) (required false)))))))))hello
