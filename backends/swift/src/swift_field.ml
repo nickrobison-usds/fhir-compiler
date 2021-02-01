@@ -7,9 +7,9 @@ type t = {
   required: bool;
 }
 
-let datatype_to_string =
+let simple_datatype_to_string =
   fun d ->
-  let open Lib.Datatype in
+  let open Lib.Simple_datatype in
   match d with
   | Base64Binary | Code | ID | Markdown | OID | String | Xhtml -> "String"
   | Boolean -> "Bool"
@@ -18,6 +18,10 @@ let datatype_to_string =
   | PositiveInt | UnsignedInt | Integer -> "Int"
   | URI -> "URL"
   | UUID -> "UUID"
+
+let datatype_to_string = function
+  | Lib.Datatype.Simple s -> simple_datatype_to_string s
+  | Lib.Datatype.Complex _ -> raise (Invalid_argument "We don't do that yet")
 
 let filter_name = function
   | "extension" -> "extension_fhir"

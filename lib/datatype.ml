@@ -1,48 +1,12 @@
-open Exceptions
+open! Base
 
-type datatype =
-  | Base64Binary
-  | Boolean
-  | Code
-  | Date
-  | DateTime
-  | Decimal
-  | ID
-  | Instant
-  | Integer
-  | Markdown
-  | OID
-  | PositiveInt
-  | String
-  | Time
-  | UnsignedInt
-  | URI
-  | UUID
-  | Xhtml [@@deriving sexp]
+type t = Simple of Simple_datatype.t | Complex of Complex_datatype.t [@@deriving sexp]
 
-let datatype_of_string = function
-  | "base64Binary" -> Base64Binary
-  | "boolean" -> Boolean
-  | "code" -> Code
-  | "date" -> Date
-  | "dateTime" -> DateTime
-  | "decimal" -> Decimal
-  | "id" -> ID
-  | "instant" -> Instant
-  | "integer" -> Integer
-  | "markdown" -> Markdown
-  | "oid" -> OID
-  | "positiveInt" -> PositiveInt
-  | "string" -> String
-  | "time" -> Time
-  | "unsignedInt" -> UnsignedInt
-  | "uri" -> URI
-  | "uuid" -> UUID
-  | "xhtml" -> Xhtml
-  | s -> raise (UnsupportedType s)
+let t_of_string code =
+  try Simple (Simple_datatype.t_of_string code)
+  with Exceptions.UnsupportedType _ ->
+    Complex (Complex_datatype.t_of_string code)
 
-let datatype_to_string dt =
-  match dt with
-  | String -> "string"
-  | Integer -> "integer"
-  | _ -> raise (UnsupportedType "Can't with it")
+let t_to_string = function
+  | Simple p -> Simple_datatype.t_to_string p
+  | Complex c -> Complex_datatype.t_to_string c

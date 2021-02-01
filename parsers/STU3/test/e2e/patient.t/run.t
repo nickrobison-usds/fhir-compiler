@@ -22,7 +22,8 @@
        (datatype
         (Complex
          ((l link)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+          (components
+           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
      (Field
       ((path (Patient managingOrganization)) (id Patient.managingOrganization)
        (datatype (Complex ((l managingOrganization) (components ()))))))
@@ -37,7 +38,7 @@
      (Field
       ((path (Patient communication preferred))
        (id Patient.communication.preferred)
-       (datatype (Scalar ((scalar_type Boolean) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Boolean)) (required false))))))
      (Field
       ((path (Patient communication language))
        (id Patient.communication.language)
@@ -55,7 +56,8 @@
        (datatype
         (Complex
          ((l communication)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+          (components
+           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
      (Field
       ((path (Patient animal genderStatus)) (id Patient.animal.genderStatus)
        (datatype (Complex ((l genderStatus) (components ()))))))
@@ -77,7 +79,8 @@
        (datatype
         (Complex
          ((l animal)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+          (components
+           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
      (Field
       ((path (Patient contact period)) (id Patient.contact.period)
        (datatype (Complex ((l period) (components ()))))))
@@ -86,7 +89,7 @@
        (datatype (Complex ((l organization) (components ()))))))
      (Field
       ((path (Patient contact gender)) (id Patient.contact.gender)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Patient contact address)) (id Patient.contact.address)
        (datatype (Complex ((l address) (components ()))))))
@@ -111,7 +114,8 @@
        (datatype
         (Complex
          ((l contact)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+          (components
+           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
      (Field
       ((path (Patient photo)) (id Patient.photo)
        (datatype (Complex ((l photo) (components ()))))))
@@ -121,8 +125,8 @@
         (Union
          ((l2 multipleBirth[x])
           (field_types
-           ((Scalar ((scalar_type Boolean) (required false)))
-            (Scalar ((scalar_type Integer) (required false))))))))))
+           ((Scalar ((scalar_type (Simple Boolean)) (required false)))
+            (Scalar ((scalar_type (Simple Integer)) (required false))))))))))
      (Field
       ((path (Patient maritalStatus)) (id Patient.maritalStatus)
        (datatype (Complex ((l maritalStatus) (components ()))))))
@@ -135,14 +139,14 @@
         (Union
          ((l2 deceased[x])
           (field_types
-           ((Scalar ((scalar_type Boolean) (required false)))
-            (Scalar ((scalar_type DateTime) (required false))))))))))
+           ((Scalar ((scalar_type (Simple Boolean)) (required false)))
+            (Scalar ((scalar_type (Simple DateTime)) (required false))))))))))
      (Field
       ((path (Patient birthDate)) (id Patient.birthDate)
-       (datatype (Scalar ((scalar_type Date) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Date)) (required false))))))
      (Field
       ((path (Patient gender)) (id Patient.gender)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Patient telecom)) (id Patient.telecom)
        (datatype (Complex ((l telecom) (components ()))))))
@@ -151,7 +155,7 @@
        (datatype (Complex ((l name) (components ()))))))
      (Field
       ((path (Patient active)) (id Patient.active)
-       (datatype (Scalar ((scalar_type Boolean) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Boolean)) (required false))))))
      (Field
       ((path (Patient identifier)) (id Patient.identifier)
        (datatype (Complex ((l identifier) (components ()))))))
@@ -169,16 +173,16 @@
        (datatype (Complex ((l text) (components ()))))))
      (Field
       ((path (Patient language)) (id Patient.language)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Patient implicitRules)) (id Patient.implicitRules)
-       (datatype (Scalar ((scalar_type URI) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple URI)) (required false))))))
      (Field
       ((path (Patient meta)) (id Patient.meta)
        (datatype (Complex ((l meta) (components ()))))))
      (Field
       ((path (Patient id)) (id Patient.id)
-       (datatype (Scalar ((scalar_type ID) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple ID)) (required false))))))
      (Field
       ((path (Patient link type)) (id Patient.link.type)
-       (datatype (Scalar ((scalar_type Code) (required true)))))))))hello
+       (datatype (Scalar ((scalar_type (Simple Code)) (required true)))))))))hello

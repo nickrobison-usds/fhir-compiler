@@ -42,7 +42,7 @@ let add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
           else
             {t with fields = value :: t.fields}
         | Complex c ->
-          let value = Swift_field.create c.l false Lib.Datatype.Code false
+          let value = Swift_field.create c.l false (Lib.Datatype.Simple (Lib.Simple_datatype.Code)) false
           in
           {t with fields = value :: t.fields}
       end

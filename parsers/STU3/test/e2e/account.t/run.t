@@ -4,7 +4,7 @@
    (fields
     ((Field
       ((path (Account guarantor onHold)) (id Account.guarantor.onHold)
-       (datatype (Scalar ((scalar_type Boolean) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Boolean)) (required false))))))
      (Field
       ((path (Account guarantor party)) (id Account.guarantor.party)
        (datatype
@@ -26,16 +26,18 @@
        (datatype
         (Complex
          ((l guarantor)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+          (components
+           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
      (Field
       ((path (Account description)) (id Account.description)
-       (datatype (Scalar ((scalar_type String) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple String)) (required false))))))
      (Field
       ((path (Account owner)) (id Account.owner)
        (datatype (Complex ((l owner) (components ()))))))
      (Field
       ((path (Account coverage priority)) (id Account.coverage.priority)
-       (datatype (Scalar ((scalar_type PositiveInt) (required false))))))
+       (datatype
+        (Scalar ((scalar_type (Simple PositiveInt)) (required false))))))
      (Field
       ((path (Account coverage coverage)) (id Account.coverage.coverage)
        (datatype (Complex ((l coverage) (components ()))))))
@@ -51,7 +53,8 @@
        (datatype
         (Complex
          ((l coverage)
-          (components ((Scalar ((scalar_type String) (required false))))))))))
+          (components
+           ((Scalar ((scalar_type (Simple String)) (required false))))))))))
      (Field
       ((path (Account balance)) (id Account.balance)
        (datatype (Complex ((l balance) (components ()))))))
@@ -75,13 +78,13 @@
             (Complex ((l subject) (components ()))))))))))
      (Field
       ((path (Account name)) (id Account.name)
-       (datatype (Scalar ((scalar_type String) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple String)) (required false))))))
      (Field
       ((path (Account type)) (id Account.type)
        (datatype (Complex ((l type) (components ()))))))
      (Field
       ((path (Account status)) (id Account.status)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Account identifier)) (id Account.identifier)
        (datatype (Complex ((l identifier) (components ()))))))
@@ -99,16 +102,16 @@
        (datatype (Complex ((l text) (components ()))))))
      (Field
       ((path (Account language)) (id Account.language)
-       (datatype (Scalar ((scalar_type Code) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple Code)) (required false))))))
      (Field
       ((path (Account implicitRules)) (id Account.implicitRules)
-       (datatype (Scalar ((scalar_type URI) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple URI)) (required false))))))
      (Field
       ((path (Account meta)) (id Account.meta)
        (datatype (Complex ((l meta) (components ()))))))
      (Field
       ((path (Account id)) (id Account.id)
-       (datatype (Scalar ((scalar_type ID) (required false))))))
+       (datatype (Scalar ((scalar_type (Simple ID)) (required false))))))
      (Field
       ((path (Account guarantor period)) (id Account.guarantor.period)
        (datatype (Complex ((l period) (components ())))))))))hello

@@ -65,7 +65,7 @@ let is_primitive s =
 let emit_scalar t code =
   Log.debug (fun f -> f "Emitting single max: %s" t.max);
   Fhir.Scalar {
-    scalar_type = Datatype.datatype_of_string code;
+    scalar_type = Datatype.t_of_string code;
     required = t.min >= 1;
   }
 
@@ -75,7 +75,7 @@ let emit_arity t code =
     l3 = replace_leading t.id;
     min = t.min;
     max = t.max;
-    ft2 = Datatype.datatype_of_string code
+    ft2 = Datatype.t_of_string code
   }
 
 let emit_complex t =
