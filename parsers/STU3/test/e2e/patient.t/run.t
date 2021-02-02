@@ -1,5 +1,4 @@
   $ ../../integration.exe patient-stu3.json
-  Registering STU3 parser
   (Structure
    ((name Patient)
     (fields

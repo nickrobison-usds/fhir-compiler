@@ -3,7 +3,7 @@ open Alcotest
 exception ParseError of string
 
 
-let structTest = testable Stu3.Structure.STU3_Parser.pp Stu3.Structure.STU3_Parser.equal
+let structTest = testable Stu3.Structure.pp Stu3.Structure.equal
 
 let test_case typ typ_str v = check typ typ_str v v
 
@@ -21,27 +21,27 @@ let t = Alcotest.(result structTest error)
 let test_patient_parse () =
   let f = (dir "patient-stu3.json") in
   let name = Fpath.to_string f in
-  let patient = Reader.read f Stu3.Structure.STU3_Parser.t_of_yojson in
+  let patient = Reader.read f Stu3.Structure.t_of_yojson in
   (* Test that it is a structure definition*)
   test_case t name patient;
   let patient = match patient with
     | Ok p -> p
     | Error e -> fail (unwrap_msg e)
   in
-  Alcotest.(check int) "Should have elements" 52 (List.length (Stu3.Structure.STU3_Parser.elements patient));
+  Alcotest.(check int) "Should have elements" 52 (List.length (Stu3.Structure.elements patient));
   ()
 
 
 let test_account_parse () =
   let f = (dir "account-stu3.json") in
   let name = Fpath.to_string f in
-  let account = Reader.read f Stu3.Structure.STU3_Parser.t_of_yojson in
+  let account = Reader.read f Stu3.Structure.t_of_yojson in
   test_case t name account;
   let account = match account with
     | Ok a -> a
     | Error e -> fail (unwrap_msg e)
   in
-  Alcotest.(check int) "Should have elements" 32 (List.length (Stu3.Structure.STU3_Parser.elements account));
+  Alcotest.(check int) "Should have elements" 32 (List.length (Stu3.Structure.elements account));
   ()
 
 let () =

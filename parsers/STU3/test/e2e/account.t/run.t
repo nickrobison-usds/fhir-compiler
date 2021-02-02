@@ -1,5 +1,4 @@
   $ ../../integration.exe account-stu3.json
-  Registering STU3 parser
   (Structure
    ((name Account)
     (fields

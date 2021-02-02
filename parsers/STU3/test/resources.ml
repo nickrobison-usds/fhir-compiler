@@ -1,7 +1,8 @@
 open! Base
 open Alcotest
 
-module S = Stu3.Structure.STU3_Parser
+module S = Stu3.Structure
+module P = Stu3.STU3_Parser.P
 
 let datatypeTest = testable (fun f t -> Fmt.pf f "%s" (Lib.Datatype.t_to_string t)) (fun l r -> String.equal (Lib.Datatype.t_to_string l) (Lib.Datatype.t_to_string r))
 
@@ -34,10 +35,9 @@ let arity_field: type a. a Lib.Fhir.field -> unit =
 
 
 let simple_test () =
-  let open Stu3.Structure.STU3_Parser in
-  let f = to_resource simple in
+  let f = S.to_resource simple in
   let f = match f with
-    | Structure f -> f
+    | Lib.Resource.Structure f -> f
   in
   Alcotest.(check int) "Should have a single element" 1 (List.length f.fields);
   Alcotest.(check string) "Should have the correct name" "Simple" f.name;
@@ -45,8 +45,7 @@ let simple_test () =
   simple_field field
 
 let arity_test () =
-  let open Stu3.Structure.STU3_Parser in
-  let f = to_resource arity in
+  let f = S.to_resource arity in
   let f = match f with
     | Structure f -> f
   in
