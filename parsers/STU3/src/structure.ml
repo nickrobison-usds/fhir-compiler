@@ -1,6 +1,5 @@
 open! Base
 open Lib
-open Lwt
 
 type structure = {
   element: Element.t list
@@ -89,15 +88,5 @@ let to_resource t =
   Resource.Structure (Structure.make name fields)
 
 let to_fhir json =
-  let t = t_of_yojson json in
-  to_resource t
-
-let parse () =
-  let stream, pusher = Lwt_stream.create () in
-  let _ = Downloader.download "http://hl7.org/fhir/STU3/examples-json.zip" >>= fun pth ->
-    Downloader.unzip pth pusher;
-    Lwt.return_unit
-  in
-  stream
-  |> Lwt_stream.map Yojson.Safe.from_string
-  |> Lwt_stream.map to_fhir
+  t_of_yojson json
+  |> to_resource

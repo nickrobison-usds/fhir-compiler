@@ -1,4 +1,5 @@
 open! Base
+open Lwt.Infix
 
 module P = struct
 
@@ -13,18 +14,26 @@ module P = struct
     match h with
     | Some h ->
       let f = match h with
-      | "StructureDefinition" -> Structure.to_fhir json
-      | s -> raise (Lib.Exceptions.UnsupportedType s)
+        | "StructureDefinition" -> Structure.to_fhir
+        | "CodeSystem" -> Codesystem.to_fhir
+        | s -> raise (Lib.Exceptions.UnsupportedType s)
       in
-      f
+      f json
     | None -> raise Lib.Exceptions.Not_Fhir
 
   let t_of_yojson json =
     to_fhir json
 
   let parse () =
-    let stream, _ = Lwt_stream.create () in
+    let stream, pusher = Lwt_stream.create () in
+    let _ = Downloader.download "http://hl7.org/fhir/STU3/examples-json.zip" >>= fun pth ->
+      Downloader.unzip pth pusher;
+      Lwt.return_unit
+    in
     stream
+    |> Lwt_stream.map Yojson.Safe.from_string
+    |> Lwt_stream.map to_fhir
+
 end
 
 let () =

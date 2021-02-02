@@ -6,6 +6,10 @@ module P = Stu3.STU3_Parser.P
 
 let datatypeTest = testable (fun f t -> Fmt.pf f "%s" (Lib.Datatype.t_to_string t)) (fun l r -> String.equal (Lib.Datatype.t_to_string l) (Lib.Datatype.t_to_string r))
 
+let unwrap_structure = function
+  | Lib.Resource.Structure f -> f
+  | _ -> raise (Invalid_argument "Must be a structure")
+
 let simple = S.create "Account" "Simple"[Lib.Element.create "Elem.first" 0 "1" ["string"]]
 
 let simple_field: type a. a Lib.Fhir.field -> unit =
@@ -35,20 +39,14 @@ let arity_field: type a. a Lib.Fhir.field -> unit =
 
 
 let simple_test () =
-  let f = S.to_resource simple in
-  let f = match f with
-    | Lib.Resource.Structure f -> f
-  in
+  let f = unwrap_structure @@ S.to_resource simple in
   Alcotest.(check int) "Should have a single element" 1 (List.length f.fields);
   Alcotest.(check string) "Should have the correct name" "Simple" f.name;
   let field = List.hd_exn f.fields in
   simple_field field
 
 let arity_test () =
-  let f = S.to_resource arity in
-  let f = match f with
-    | Structure f -> f
-  in
+  let f = unwrap_structure @@ S.to_resource arity in
   Alcotest.(check int) "Should have a single element" 1 (List.length f.fields);
   Alcotest.(check string) "Should have the correct name" "Arity" f.name;
   let field = List.hd_exn f.fields in
@@ -63,10 +61,7 @@ let complex = S.create "Patient" "ComplexTest" [
 
 let complex_test () =
   let open S in
-  let f = to_resource complex in
-  let f = match f with
-    | Structure f -> f
-  in
+  let f = unwrap_structure @@ to_resource complex in
   Alcotest.(check int) "Should have correct elements" 2 (List.length f.fields);
   let c = List.find_exn f.fields ~f:(fun field ->
       match field with

@@ -133,4 +133,4 @@
         (datatype (Scalar ((scalar_type (Simple ID)) (required false))))))
       (Field
        ((path (Account guarantor period)) (id Account.guarantor.period)
-        (datatype (Scalar ((scalar_type (Complex Period)) (required false))))))))))hello
+        (datatype (Scalar ((scalar_type (Complex Period)) (required false))))))))))
