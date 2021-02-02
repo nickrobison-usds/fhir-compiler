@@ -21,33 +21,39 @@ let simple_field: type a. a Lib.Fhir.field -> unit =
 let arity = S.create "Account" "Arity" [Lib.Element.create "Elem.first" 1 "*" ["integer"]]
 
 let arity_field: type a. a Lib.Fhir.field -> unit =
-fun field ->
-match field with
-| Field field ->
-match field.datatype with
-| Arity a -> begin
+  fun field ->
+  match field with
+  | Field field ->
+    match field.datatype with
+    | Arity a -> begin
         Alcotest.check datatypeTest "Should be an integer" (Lib.Datatype.Simple (Lib.Simple_datatype.Integer)) a.ft2;
 
-end
+      end
 
-| _ -> Alcotest.fail "Must be an arity"
+    | _ -> Alcotest.fail "Must be an arity"
 
 
 let simple_test () =
   let open Stu3.Structure.STU3_Parser in
   let f = to_resource simple in
+  let f = match f with
+    | Structure f -> f
+  in
   Alcotest.(check int) "Should have a single element" 1 (List.length f.fields);
   Alcotest.(check string) "Should have the correct name" "Simple" f.name;
   let field = List.hd_exn f.fields in
   simple_field field
 
 let arity_test () =
-let open Stu3.Structure.STU3_Parser in
-let f = to_resource arity in
-Alcotest.(check int) "Should have a single element" 1 (List.length f.fields);
+  let open Stu3.Structure.STU3_Parser in
+  let f = to_resource arity in
+  let f = match f with
+    | Structure f -> f
+  in
+  Alcotest.(check int) "Should have a single element" 1 (List.length f.fields);
   Alcotest.(check string) "Should have the correct name" "Arity" f.name;
-let field = List.hd_exn f.fields in
-arity_field field
+  let field = List.hd_exn f.fields in
+  arity_field field
 
 
 let complex = S.create "Patient" "ComplexTest" [
@@ -59,6 +65,9 @@ let complex = S.create "Patient" "ComplexTest" [
 let complex_test () =
   let open S in
   let f = to_resource complex in
+  let f = match f with
+    | Structure f -> f
+  in
   Alcotest.(check int) "Should have correct elements" 2 (List.length f.fields);
   let c = List.find_exn f.fields ~f:(fun field ->
       match field with
@@ -69,13 +78,13 @@ let complex_test () =
       | Lib.Fhir.Field c -> match c.datatype with
         | Lib.Fhir.Complex _ -> true
         | _ -> false);
-(* Let's see how many types we have in our complex*)
+  (* Let's see how many types we have in our complex*)
   Alcotest.(check int) "Should have a nested type" 1 (
     match c with
     | Field c ->
       match c.datatype with
-        | Lib.Fhir.Complex c -> List.length c.fields
-        | _ -> Alcotest.fail "Must be complex")
+      | Lib.Fhir.Complex c -> List.length c.fields
+      | _ -> Alcotest.fail "Must be complex")
 let test =
   "Resource Building Tests", [
     Alcotest.test_case "Simple Resource" `Quick simple_test;

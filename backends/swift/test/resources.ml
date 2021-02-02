@@ -6,7 +6,7 @@ module P = Lib.Simple_datatype
 module C = Lib.Complex_datatype
 
 let patient_opt () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -18,7 +18,7 @@ let patient_opt () =
   ]
 
 let patient_reqed () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -30,7 +30,7 @@ let patient_reqed () =
   ]
 
 let patient_arity_opt () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -52,7 +52,7 @@ let patient_arity_opt () =
   ]
 
 let patient_arity_req () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -76,7 +76,7 @@ let patient_arity_req () =
 let pth_str = Lib.Path.from_string
 
 let account () =
-  Lib.Resource.make "Account" [
+  Lib.Structure.make "Account" [
     F.Field {
       path = Lib.Path.from_string "Account.Identifier";
       id = "Account.Identifier";

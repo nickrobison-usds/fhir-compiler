@@ -37,8 +37,11 @@ module Swift_compiler = struct
 
   let emit: type a. t -> a Lib.Resource.t -> unit =
     fun t r ->
-    let res = Class.create r in
-    Class.emit t.output_dir res
+    match r with
+    | Structure r ->
+      let res = Class.create r in
+      Class.emit t.output_dir res
+
 
   let commands =
     let open Cmdliner in
