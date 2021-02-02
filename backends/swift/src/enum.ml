@@ -18,6 +18,8 @@ let create (cs: 'a Lib.Codesystem.t) = {
   cases = List.map cs.concept ~f:from_code;
 }
 
+let name t = t.name
+
 let pp_case fmt str =
   Fmt.pf fmt "case %s = \"%s\"" (String.uncapitalize str) str
 

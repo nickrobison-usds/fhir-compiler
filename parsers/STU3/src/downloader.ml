@@ -19,7 +19,8 @@ let body_writer body =
   Stdio.Out_channel.with_file (Fpath.to_string pth) ~f:(fun oc -> output_string oc body);
   pth
 
-let reg = Re.Perl.compile_pat "^structure"
+
+let reg = Re.Pcre.regexp "structure|codesystem"
 
 let download uri =
   debug "Downloading from %s\n" uri;

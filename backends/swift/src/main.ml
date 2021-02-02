@@ -35,15 +35,24 @@ module Swift_compiler = struct
   let surround p1 p2 pp_v fmt v =
     Fmt.pf fmt "%a%a%a" p1 () pp_v v p2 ()
 
+  let emit_to_file pth name emitter res =
+    let path = Fpath.add_seg pth (Fmt.str "%s.swift" name)
+               |> Fpath.to_string
+
+    in
+    Log.debug (fun f -> f "Writing to %s" path);
+    Stdio.Out_channel.with_file path ~f:(fun oc -> emitter oc res)
+
   let emit: type a. t -> a Lib.Resource.t -> unit =
     fun t r ->
+    let file_out = emit_to_file t.output_dir in
     match r with
     | Structure r ->
       let res = Class.create r in
-      Class.emit t.output_dir res
+      file_out (Class.name res) Class.emit res
     | CodeSystem c ->
       let res = Enum.create c in
-      Enum.emit Stdio.stdout res
+      emit_to_file t.output_dir (Enum.name res) Enum.emit res
 
 
   let commands =

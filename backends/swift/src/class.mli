@@ -4,6 +4,6 @@ type t
 
 val create: 'a Lib.Structure.t -> t
 
-val emit_class: t -> string
+val name: t -> string
 
-val emit: Fpath.t -> t -> unit
+val emit: Stdio.Out_channel.t -> t -> unit

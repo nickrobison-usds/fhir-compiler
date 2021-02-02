@@ -3,7 +3,7 @@ open! Base
 module S = Swift
 
 let create_print = function
-  | Lib.Resource.Structure s -> S.Class.create s |> S.Class.emit_class |> Stdio.print_endline
+  | Lib.Resource.Structure s -> S.Class.create s |> S.Class.emit Stdio.stdout
   | Lib.Resource.CodeSystem c -> S.Enum.create c |> S.Enum.emit Stdio.stdout
 
 let () =
