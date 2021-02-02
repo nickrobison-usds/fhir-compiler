@@ -43,9 +43,9 @@ let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
       let value = Swift_field.create c.name false (Lib.Datatype.Domain nested_name) false
       in
       {t with fields = value :: t.fields; nested_classes = (create (
-           Lib.Resource.make nested_name c.fields
+           Lib.Structure.make nested_name c.fields
          )) :: t.nested_classes}
-and create: type a. a Lib.Resource.t -> t =
+and create: type a. a Lib.Structure.t -> t =
   fun res ->
   let path = Lib.Path.from_string res.name in
   let empty = {name = res.name; is_open = false; parent = []; fields = []; constructor = []; nested_classes = []}

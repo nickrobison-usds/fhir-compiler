@@ -88,7 +88,7 @@ module STU3_Parser = struct
   let to_resource t =
     let name = t.name in
     let fields = List.filter_opt (handle_elements (elements t)) in
-    Resource.make name fields
+    Resource.Structure (Structure.make name fields)
 
   let to_fhir json =
     let t = t_of_yojson json in
