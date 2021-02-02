@@ -41,6 +41,9 @@ module Swift_compiler = struct
     | Structure r ->
       let res = Class.create r in
       Class.emit t.output_dir res
+    | CodeSystem c ->
+      let res = Enum.create c in
+      Enum.emit Stdio.stdout res
 
 
   let commands =

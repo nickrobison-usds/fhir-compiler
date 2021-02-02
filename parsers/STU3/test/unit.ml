@@ -2,7 +2,6 @@ open! Base
 open Alcotest
 exception ParseError of string
 
-
 let structTest = testable Stu3.Structure.pp Stu3.Structure.equal
 
 let test_case typ typ_str v = check typ typ_str v v
