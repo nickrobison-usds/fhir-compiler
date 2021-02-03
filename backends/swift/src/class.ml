@@ -16,6 +16,8 @@ type t = {
 let make_nested_class_name t name =
   Printf.sprintf "%s%s" t.name (String.capitalize name)
 
+let name t = t.name
+
 let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
   fun t _path field ->
   match field with
@@ -43,9 +45,9 @@ let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
       let value = Swift_field.create c.name false (Lib.Datatype.Domain nested_name) false
       in
       {t with fields = value :: t.fields; nested_classes = (create (
-           Lib.Resource.make nested_name c.fields
+           Lib.Structure.make nested_name c.fields
          )) :: t.nested_classes}
-and create: type a. a Lib.Resource.t -> t =
+and create: type a. a Lib.Structure.t -> t =
   fun res ->
   let path = Lib.Path.from_string res.name in
   let empty = {name = res.name; is_open = false; parent = []; fields = []; constructor = []; nested_classes = []}
@@ -88,14 +90,5 @@ let emit_class t =
       Fmt.str "%s\n\n%s" acc class_str
     )
 
-
-let write_to_file t =
-  fun oc ->
-  Stdio.Out_channel.output_string oc (emit_class t);
-  List.iter t.nested_classes ~f:(fun c -> Stdio.Out_channel.output_string oc (emit_class c))
-
-let emit path t =
-  let path = Fpath.add_seg path  (Fmt.str "%s.swift" t.name) in
-  Stdio.printf "Writing to %s\n" (Fpath.to_string path);
-  let write_to_file = write_to_file t in
-  Stdio.Out_channel.with_file (Fpath.to_string path) ~f:write_to_file
+let emit oc t =
+  Stdio.Out_channel.output_string oc (emit_class t)

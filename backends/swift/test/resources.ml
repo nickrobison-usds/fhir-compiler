@@ -6,7 +6,7 @@ module P = Lib.Simple_datatype
 module C = Lib.Complex_datatype
 
 let patient_opt () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -18,7 +18,7 @@ let patient_opt () =
   ]
 
 let patient_reqed () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -30,7 +30,7 @@ let patient_reqed () =
   ]
 
 let patient_arity_opt () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -52,7 +52,7 @@ let patient_arity_opt () =
   ]
 
 let patient_arity_req () =
-  Lib.Resource.make "Patient" [
+  Lib.Structure.make "Patient" [
     F.Field {
       path = Lib.Path.from_string "Patient.Name";
       id = "Patient.Name";
@@ -76,7 +76,7 @@ let patient_arity_req () =
 let pth_str = Lib.Path.from_string
 
 let account () =
-  Lib.Resource.make "Account" [
+  Lib.Structure.make "Account" [
     F.Field {
       path = Lib.Path.from_string "Account.Identifier";
       id = "Account.Identifier";
@@ -186,13 +186,28 @@ let account () =
     };
   ]
 
+let account_status () =
+  Lib.Codesystem.make ~name:"AccountStatus" ~valueset:"http://hl7.org/fhir/ValueSet/account-status" ~description:"Test Account Status" Lib.Codesystem.Complete [
+    {
+      code = "Test";
+      display = "Test";
+      description = "Nothing here"
+    };
+    {
+      code = "Test2";
+      display = "Test2 Code";
+      description = "What should go here?"
+    }
+  ]
+
 
 let v () =
   let table = Hashtbl.create (module String) in
-  Hashtbl.set table ~key:"patient_optional" ~data:(patient_opt ());
-  Hashtbl.set table ~key:"patient_required" ~data:(patient_reqed ());
-  Hashtbl.set table ~key:"patient_arity_optional" ~data:(patient_arity_opt
-                                                           ());
-  Hashtbl.set table ~key:"patient_arity_required" ~data:(patient_arity_req ());
-  Hashtbl.set table ~key:"account" ~data:(account ());
+  Hashtbl.set table ~key:"patient_optional" ~data:(Lib.Resource.Structure (patient_opt ()));
+  Hashtbl.set table ~key:"patient_required" ~data:(Lib.Resource.Structure (patient_reqed ()));
+  Hashtbl.set table ~key:"patient_arity_optional" ~data:(Lib.Resource.Structure (patient_arity_opt
+                                                           ()));
+  Hashtbl.set table ~key:"patient_arity_required" ~data:(Lib.Resource.Structure (patient_arity_req ()));
+  Hashtbl.set table ~key:"account" ~data:(Lib.Resource.Structure (account ()));
+  Hashtbl.set table ~key:"account_status" ~data:(Lib.Resource.CodeSystem (account_status ()));
   table

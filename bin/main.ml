@@ -53,7 +53,7 @@ let version =
   | None -> "n/a"
   | Some v -> Build_info.V1.Version.to_string v
 
-let n = Stu3.Structure.STU3_Parser.name
+let n = Stu3.STU3_Parser.P.name
 
 (* Parser selection *)
 type parser_version = STU3 | R4

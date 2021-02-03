@@ -2,6 +2,10 @@ open! Base
 
 module S = Swift
 
+let create_print = function
+  | Lib.Resource.Structure s -> S.Class.create s |> S.Class.emit Stdio.stdout
+  | Lib.Resource.CodeSystem c -> S.Enum.create c |> S.Enum.emit Stdio.stdout
+
 let () =
   let args = Array.to_list (Sys.get_argv ()) in
   if (List.length args) <> 2 then
@@ -11,6 +15,4 @@ let () =
     let r = List.nth_exn args 1 and
     table = Resources.v () in
     Hashtbl.find_exn table r
-    |> S.Class.create
-    |> S.Class.emit_class
-    |> Stdio.print_endline
+    |>  create_print

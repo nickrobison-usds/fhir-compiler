@@ -1,6 +1,7 @@
 open! Base
 
-module P = Stu3.Structure.STU3_Parser
+module P = Stu3.STU3_Parser.P
+module S = Stu3.Structure
 module F = Lib.Fhir
 
 exception ParseException of string
@@ -22,11 +23,11 @@ let () =
     raise (Invalid_argument "Missing command line arguments")
   else
     let f = List.nth_exn args 1 in
-    let resource = read (dir f) P.t_of_yojson in
+    let resource = read (dir f) P.to_fhir in
     match resource with
-    | Rresult.Ok s ->
-      let r = P.to_resource s in
+    | Rresult.Ok r ->
       let sexp = Lib.Resource.sexp_of_t sexpit r in
-      Sexp.pp_hum Fmt.stdout sexp;
-      Stdio.print_endline "hello"
-    | _ -> raise (Invalid_argument "Cannot parse file")
+      Sexp.pp_hum Fmt.stdout sexp
+    | Rresult.Error e ->
+      match e with
+      | `Msg m -> raise (Invalid_argument m)

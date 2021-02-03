@@ -32,4 +32,4 @@ build: [
   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
 dev-repo: "git+https://github.com/nickrobison-usds/fhir-compiler.git"
-synopsis: "Experimental compiler from FHIR profiles to programming languages"
+synopsis: "Experimental compiler from FHIR resources to programming languages"
