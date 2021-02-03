@@ -21,8 +21,7 @@ jobs:
       - name: Cache Opam
         uses: actions/cache@v2
         with:
-          path: |
-            ~/_opam
+          path: _opam
           key: opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ hashFiles('*.opam') }}
           restore-keys: |
              opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-
