@@ -43,3 +43,22 @@
   self.Id=Id
   self.Name=Name
   }}
+
+  $ ../../integration.exe patient_union
+  import Foundation
+  
+  
+   class Patient {
+  public var Deceased: PatientDeceased?
+                  
+  public var Name: String
+  
+  init (Name: String){
+  self.Name=Name
+  }}
+  
+  public enum PatientDeceased {
+                               case bool(Bool)
+                               
+                               case date(Date)
+                               }
