@@ -51,6 +51,36 @@ let patient_arity_opt () =
     }
   ]
 
+let patient_union () =
+  Lib.Structure.make "Patient" [
+    F.Field {
+      path = Lib.Path.from_string "Patient.Name";
+      id = "Patient.Name";
+      datatype = Lib.Fhir.Scalar {
+          scalar_type = D.Simple P.String;
+          required = true;
+        }
+    };
+    F.Field {
+      path = Lib.Path.from_string "Patient.deceased[x]";
+      id = "Patient.deceased[x]";
+      datatype = F.Union {
+          l2 = "deceased";
+          field_types = [
+            F.Scalar {
+              scalar_type = D.Simple P.Boolean;
+              required = false;
+            };
+            F.Scalar {
+              scalar_type = D.Simple P.DateTime;
+              required = false;
+            }
+          ]
+        }
+    }
+  ]
+
+
 let patient_arity_req () =
   Lib.Structure.make "Patient" [
     F.Field {
@@ -210,4 +240,5 @@ let v () =
   Hashtbl.set table ~key:"patient_arity_required" ~data:(Lib.Resource.Structure (patient_arity_req ()));
   Hashtbl.set table ~key:"account" ~data:(Lib.Resource.Structure (account ()));
   Hashtbl.set table ~key:"account_status" ~data:(Lib.Resource.CodeSystem (account_status ()));
+  Hashtbl.set table ~key:"patient_union" ~data:(Lib.Resource.Structure (patient_union ()));
   table

@@ -23,11 +23,9 @@ let name t = t.name
 let pp_case fmt str =
   Fmt.pf fmt "case %s = \"%s\"" (String.uncapitalize str) str
 
-let case_sep fmt () =
-  Fmt.pf fmt "@\n@\n"
 
 let pp_enum_options fmt t =
-  let cases = Fmt.list ~sep:case_sep pp_case in
+  let cases = Fmt.list ~sep:Formatters.case_sep pp_case in
   Fmt.pf fmt "@\n%a@\n" cases t.cases
 
 let pp_enum_surround fmt t =

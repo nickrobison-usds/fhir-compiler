@@ -47,4 +47,6 @@ let t_to_string dt =
   | Base64Binary -> "base64Binary"
   | String -> "string"
   | Integer -> "integer"
+  | Boolean -> "boolean"
+  | DateTime -> "dateTime"
   | _ -> raise (UnsupportedType "Can't with it")

@@ -10,7 +10,9 @@ type t = {
   parent: t option list;
   fields: Swift_field.t list;
   constructor: Swift_field.t list;
+  (* Eventually, these should be unified into an Emittable signature *)
   nested_classes: t list;
+  nested_enums: Sum.t list;
 }
 
 let make_nested_class_name t name =
@@ -31,7 +33,13 @@ let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
         else
           {t with fields = value :: t.fields}
       end
-    | Union _ -> t
+    | Union u ->
+      let sum_name = t.name ^ (String.capitalize u.l2) in
+      let options = List.map u.field_types ~f:Sum.Option.t_of_datatype in
+      let s = Sum.create sum_name options in
+      let value = Swift_field.create u.l2 false (Lib.Datatype.Domain sum_name) false
+      in
+      {t with fields = value :: t.fields; nested_enums = s :: t.nested_enums}
     | Arity f ->
       let required = if (f.min) >= 1 then true else false in
       let value = Swift_field.create f.l3 true f.ft2 required
@@ -50,7 +58,7 @@ let rec add_field: type a. t -> Lib.Path.t -> a Lib.Fhir.field -> t =
 and create: type a. a Lib.Structure.t -> t =
   fun res ->
   let path = Lib.Path.from_string res.name in
-  let empty = {name = res.name; is_open = false; parent = []; fields = []; constructor = []; nested_classes = []}
+  let empty = {name = res.name; is_open = false; parent = []; fields = []; constructor = []; nested_classes = []; nested_enums = []}
   in
   List.fold res.fields ~init:empty ~f:(fun acc f -> add_field acc path f)
 
@@ -76,17 +84,21 @@ let emit_class_body fmt t =
   in
   Fmt.pf fmt "%a\n\n%a" fields t.fields emit_constructor t
 
-(* Emit class [t] as a string, along with any nested classes.
+(* Emit class [t] as a string, along with any nested classes and enums.
    This will be written as a single Swift file *)
 let emit_class t =
   let lst = List.append [t] t.nested_classes in
   let init = Fmt.str "%a" Prelude.emit() in
-  List.fold lst ~init ~f:(fun acc c ->
+  let classes = List.fold lst ~init ~f:(fun acc c ->
       let class_str = Fmt.str "%a class %s %a"
           emit_open c
           c.name
           (Fmt.braces emit_class_body) c
       in
+      Fmt.str "%s\n\n%s" acc class_str
+    ) in
+  List.fold t.nested_enums ~init:classes ~f:(fun acc c ->
+      let class_str = Fmt.str "%a" Sum.pp c in
       Fmt.str "%s\n\n%s" acc class_str
     )
 
