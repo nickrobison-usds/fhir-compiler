@@ -10,6 +10,13 @@ module Make
   let emit_resource path resource =
     Lwt.return (B.emit path resource)
 
+  let filter_examples: type a. a Resource.t -> bool =
+    fun r ->
+    match r with
+    | CodeSystem c -> not (Codesystem.is_example c)
+    | _ -> true
+
+
   let parse backend =
     let path = match Fpath.of_string "swifts/outputs" with
       | Ok p -> p
@@ -20,7 +27,8 @@ module Make
     let p = P.parse () in
     let emit_resource = emit_resource backend in
     (* Handle each one *)
-    Lwt_stream.iter_p emit_resource p
+    Lwt_stream.filter filter_examples p
+    |> Lwt_stream.iter_p emit_resource
 
   let parse_definition ic =
     let json = Yojson.Safe.from_channel ic in

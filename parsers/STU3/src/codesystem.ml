@@ -2,7 +2,7 @@ open! Base
 
 type concept = {
   code: string;
-  display: string;
+  display: string option [@default None];
   definition: string option [@default None]
 } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
@@ -27,6 +27,9 @@ let to_codesystem t =
   let ct = match t.content with
     | "complete" -> Lib.Codesystem.Complete
     | "open" -> Lib.Codesystem.Open
+    | "example" -> Lib.Codesystem.Example
+    | "fragment" -> Lib.Codesystem.Fragment
+    | "not-present" -> Lib.Codesystem.NotPresent
     | s -> raise (Invalid_argument s)
   in
   let codes = List.map t.concept ~f:make_code in

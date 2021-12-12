@@ -220,12 +220,12 @@ let account_status () =
   Lib.Codesystem.make ~name:"AccountStatus" ~valueset:(Some "http://hl7.org/fhir/ValueSet/account-status") ~description:"Test Account Status" Lib.Codesystem.Complete [
     {
       code = "Test";
-      display = "Test";
+      display = (Some "Test");
       description = None
     };
     {
       code = "Test2";
-      display = "Test2 Code";
+      display = None;
       description = (Some "What should go here?")
     }
   ]
