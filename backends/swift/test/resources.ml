@@ -217,16 +217,16 @@ let account () =
   ]
 
 let account_status () =
-  Lib.Codesystem.make ~name:"AccountStatus" ~valueset:"http://hl7.org/fhir/ValueSet/account-status" ~description:"Test Account Status" Lib.Codesystem.Complete [
+  Lib.Codesystem.make ~name:"AccountStatus" ~valueset:(Some "http://hl7.org/fhir/ValueSet/account-status") ~description:"Test Account Status" Lib.Codesystem.Complete [
     {
       code = "Test";
       display = "Test";
-      description = "Nothing here"
+      description = None
     };
     {
       code = "Test2";
       display = "Test2 Code";
-      description = "What should go here?"
+      description = (Some "What should go here?")
     }
   ]
 

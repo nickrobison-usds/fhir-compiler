@@ -3,14 +3,14 @@ open! Base
 type concept = {
   code: string;
   display: string;
-  definition: string;
+  definition: string option [@default None]
 } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]
 
 type t = {
   id: string;
   name: string;
   description: string;
-  valueSet: string;
+  valueSet: string option [@default None];
   content: string;
   concept: concept list;
 } [@@deriving yojson, show, eq] [@@yojson.allow_extra_fields]

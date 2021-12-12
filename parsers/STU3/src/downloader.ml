@@ -47,6 +47,6 @@ let unzip pth pusher =
   let handle_entry = handle_entry pusher ic in
   let entries = Zip.entries ic in
   let entries = List.filter ~f:(fun (e: Zip.entry) -> List.length (Re.matches reg e.filename) > 0)  entries in
-  let entries = List.take entries 10 in
+  let entries = List.take entries 2000 in
   List.iter ~f:handle_entry entries;
   pusher None

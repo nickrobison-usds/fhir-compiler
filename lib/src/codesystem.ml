@@ -5,13 +5,13 @@ type content_type = Complete | Open [@@deriving sexp_of]
 type code = {
   code: string;
   display: string;
-  description: string
+  description: string option
 } [@@deriving sexp_of]
 
 
 type 'a t = {
   name: string;
-  valueset: string;
+  valueset: string option;
   description: string;
   content: content_type;
   concept: code list;
