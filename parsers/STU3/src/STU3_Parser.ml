@@ -1,6 +1,10 @@
 open! Base
 open Lwt.Infix
 
+let src = Logs.Src.create "parser.STU3" ~doc: "STU3 Parser"
+
+module Log = (val Logs.src_log src: Logs.LOG)
+
 module P = struct
 
   let name = "STU3"
@@ -13,6 +17,8 @@ module P = struct
     let h = to_string_option (member "resourceType" json) in
     match h with
     | Some h ->
+      let n = to_string (member "name" json) in
+      Log.warn (fun m -> m"Parsing: `%s` of type: `%s`" n h);
       let f = match h with
         | "StructureDefinition" -> Structure.to_fhir
         | "CodeSystem" -> Codesystem.to_fhir

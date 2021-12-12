@@ -29,6 +29,8 @@ module Swift_compiler = struct
 
   let name = "Swift"
 
+  let name_sanitize = Re.Str.regexp "/"
+
   let create config =
     {output_dir = config}
 
@@ -36,7 +38,8 @@ module Swift_compiler = struct
     Fmt.pf fmt "%a%a%a" p1 () pp_v v p2 ()
 
   let emit_to_file pth name emitter res =
-    let path = Fpath.add_seg pth (Fmt.str "%s.swift" name)
+    let name' = Re.Str.global_replace name_sanitize "+" name in
+    let path = Fpath.add_seg pth (Fmt.str "%s.swift" name')
                |> Fpath.to_string
 
     in
