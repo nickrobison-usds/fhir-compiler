@@ -12,28 +12,17 @@ jobs:
           - macos-latest
           - ubuntu-latest
         ocaml-version:
-          - 4.11.1
+          - 4.12.x
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Cache Opam
-        uses: actions/cache@v2
-        with:
-          path: _opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ hashFiles('*.opam') }}
-          restore-keys: |
-             opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-
-
       - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
+        uses: avsm/setup-ocaml@v2
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
-
-      - run: opam pin add fhir_compiler.dev . --no-action
-
-      - run: opam depext fhir_compiler --yes --with-doc --with-test
+          ocaml-compiler: ${{ matrix.ocaml-version }}
+          dune-cache: true
 
       - run: opam install . --deps-only --with-doc --with-test
 
