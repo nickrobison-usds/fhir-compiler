@@ -15,7 +15,7 @@ module type B = sig
 
   val emit: t -> 'a Resource.t -> unit
 
-  val commands: ('a Cmdliner.Term.t * Cmdliner.Term.info)
+  val commands: ('a Cmdliner.Term.t * Cmdliner.Cmd.info)
 
 end
 

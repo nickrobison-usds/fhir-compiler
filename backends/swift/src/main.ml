@@ -61,7 +61,7 @@ module Swift_compiler = struct
   let commands =
     let open Cmdliner in
     Term.(ret (const (fun _ -> `Help (`Pager, None)) $ const ())),
-    Term.info "swift"
+    Cmd.info "swift"
 
 end
 
