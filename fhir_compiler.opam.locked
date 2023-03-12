@@ -1,0 +1,105 @@
+opam-version: "2.0"
+name: "fhir_compiler"
+version: "~dev"
+synopsis:
+  "Experimental compiler from FHIR resources to programming languages"
+maintainer: "Nick Robison <nicholas.a.robison@omb.eop.gov>"
+authors: "Nick Robison <nicholas.a.robison@omb.eop.gov>"
+homepage: "https://github.com/nickrobison-usds/fhir-compiler"
+doc: "https://github.com/nickrobison-usds/fhir-compiler"
+bug-reports: "https://github.com/nickrobison-usds/fhir-compiler/issues"
+depends: [
+  "alcotest" {= "1.7.0" & with-test}
+  "angstrom" {= "0.15.0"}
+  "asn1-combinators" {= "0.2.6"}
+  "astring" {= "0.8.5"}
+  "base" {= "v0.15.1"}
+  "base-bigarray" {= "base"}
+  "base-bytes" {= "base"}
+  "base-threads" {= "base"}
+  "base-unix" {= "base"}
+  "base64" {= "3.5.1"}
+  "bigstringaf" {= "0.9.0"}
+  "bos" {= "0.2.1"}
+  "ca-certs" {= "0.2.3"}
+  "calendar" {= "3.0.0"}
+  "camlzip" {= "1.11"}
+  "cmdliner" {= "1.1.1"}
+  "cohttp" {= "5.0.0"}
+  "cohttp-lwt" {= "5.0.0"}
+  "cohttp-lwt-unix" {= "5.0.0"}
+  "conduit" {= "6.2.0"}
+  "conduit-lwt" {= "6.2.0"}
+  "conduit-lwt-unix" {= "6.2.0"}
+  "conf-gmp" {= "4"}
+  "conf-gmp-powm-sec" {= "3"}
+  "conf-pkg-config" {= "2"}
+  "conf-zlib" {= "1"}
+  "cppo" {= "1.6.9"}
+  "csexp" {= "1.5.1"}
+  "cstruct" {= "6.1.1"}
+  "domain-name" {= "0.4.0"}
+  "dune" {= "3.7.0"}
+  "dune-build-info" {= "3.7.0"}
+  "dune-configurator" {= "3.7.0"}
+  "duration" {= "0.2.1"}
+  "eqaf" {= "0.9"}
+  "fmt" {= "0.9.0"}
+  "fpath" {= "0.7.3"}
+  "gmap" {= "0.3.0"}
+  "ISO8601" {= "0.2.6"}
+  "ipaddr" {= "5.3.1"}
+  "ipaddr-sexp" {= "5.3.1"}
+  "jsonm" {= "1.0.2"}
+  "logs" {= "0.7.0"}
+  "lwt" {= "5.6.1"}
+  "macaddr" {= "5.3.1"}
+  "magic-mime" {= "1.3.0"}
+  "mirage-crypto" {= "0.11.0"}
+  "mirage-crypto-ec" {= "0.11.0"}
+  "mirage-crypto-pk" {= "0.11.0"}
+  "mirage-crypto-rng" {= "0.11.0"}
+  "num" {= "1.4"}
+  "ocaml" {= "4.14.0"}
+  "ocaml-base-compiler" {= "4.14.0"}
+  "ocaml-compiler-libs" {= "v0.12.4"}
+  "ocaml-config" {= "2"}
+  "ocaml-options-vanilla" {= "1"}
+  "ocaml-syntax-shims" {= "1.0.0"}
+  "ocamlbuild" {= "0.14.2"}
+  "ocamlfind" {= "1.9.6"}
+  "ocplib-endian" {= "1.2"}
+  "octavius" {= "1.2.2"}
+  "parsexp" {= "v0.15.0"}
+  "pbkdf" {= "1.2.0"}
+  "ppx_derivers" {= "1.2.1"}
+  "ppx_deriving" {= "5.2.1"}
+  "ppx_js_style" {= "v0.15.0"}
+  "ppx_sexp_conv" {= "v0.15.1"}
+  "ppx_yojson_conv" {= "v0.15.1"}
+  "ppx_yojson_conv_lib" {= "v0.15.0"}
+  "ppxlib" {= "0.29.1"}
+  "ptime" {= "1.1.0"}
+  "re" {= "1.10.4"}
+  "result" {= "1.5"}
+  "rresult" {= "0.7.0"}
+  "seq" {= "base"}
+  "sexplib" {= "v0.15.1"}
+  "sexplib0" {= "v0.15.1"}
+  "stdio" {= "v0.15.0"}
+  "stdlib-shims" {= "0.3.0"}
+  "stringext" {= "1.6.0"}
+  "topkg" {= "1.0.7"}
+  "uri" {= "4.2.0"}
+  "uri-sexp" {= "4.2.0"}
+  "uutf" {= "1.0.3"}
+  "x509" {= "0.16.4"}
+  "yojson" {= "2.0.2"}
+  "zarith" {= "1.12"}
+]
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+]
+dev-repo: "git+https://github.com/nickrobison-usds/fhir-compiler.git"
