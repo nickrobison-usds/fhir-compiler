@@ -107,16 +107,17 @@ let parse_cmd = Term.(const run_compiler $ copts_t)
 let term =
   let doc = "FHIR language compiler" in
   let sdocs = Manpage.s_common_options in
-  let exits = Term.default_exits in
+  let exits = Cmd.Exit.defaults in
   let man = [
     `S Manpage.s_bugs;
     `P "Email bug reports to <nicholas.a.robison@omb.eop.gov>."
   ] in
-  parse_cmd,
-  Term.info "fhirc" ~version:version ~doc ~sdocs ~exits ~man
+  let info = Cmd.info "fhirc" ~version:version ~doc ~sdocs ~exits ~man in
+  Cmd.v info parse_cmd
+  
 
 
 let cmds = [Swift.Main.Swift_compiler.commands]
 
 let () =
-  Term.(exit @@ eval term)
+  Caml.exit (Cmd.eval term)
