@@ -19,7 +19,8 @@ type t =
   | UnsignedInt
   | URI
   | UUID
-  | Xhtml [@@deriving sexp]
+  | Xhtml
+[@@deriving sexp]
 
 let t_of_string = function
   | "base64Binary" -> Base64Binary

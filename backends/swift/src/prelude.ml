@@ -1,4 +1,3 @@
 open! Base
 
-let emit fmt () =
-  Fmt.pf fmt "import Foundation\n"
+let emit fmt () = Fmt.pf fmt "import Foundation\n"

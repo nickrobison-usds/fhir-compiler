@@ -1,5 +1,4 @@
 open! Base
-
 module P = Stu3.STU3_Parser.P
 module S = Stu3.Structure
 module F = Lib.Fhir
@@ -19,15 +18,13 @@ let sexpit _a =
 
 let () =
   let args = Array.to_list (Sys.get_argv ()) in
-  if (List.length args) <> 2 then
+  if List.length args <> 2 then
     raise (Invalid_argument "Missing command line arguments")
   else
     let f = List.nth_exn args 1 in
     let resource = read (dir f) P.to_fhir in
     match resource with
     | Rresult.Ok r ->
-      let sexp = Lib.Resource.sexp_of_t sexpit r in
-      Sexp.pp_hum Fmt.stdout sexp
-    | Rresult.Error e ->
-      match e with
-      | `Msg m -> raise (Invalid_argument m)
+        let sexp = Lib.Resource.sexp_of_t sexpit r in
+        Sexp.pp_hum Fmt.stdout sexp
+    | Rresult.Error e -> ( match e with `Msg m -> raise (Invalid_argument m))
