@@ -1,5 +1,6 @@
 (library
-  (name swift)
-  (public_name fhir_compiler.backends.swift)
-  (libraries fhir_compiler.lib base re fmt cmdliner logs)
-  (preprocess (pps ppx_sexp_conv)))
+ (name swift)
+ (public_name fhir_compiler.backends.swift)
+ (libraries fhir_compiler.lib base re fmt cmdliner logs)
+ (preprocess
+  (pps ppx_sexp_conv)))

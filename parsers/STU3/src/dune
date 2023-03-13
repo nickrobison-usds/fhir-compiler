@@ -1,5 +1,16 @@
 (library
-  (name stu3)
-  (public_name fhir_compiler.parser.stu3)
-  (libraries fhir_compiler.lib base ppx_yojson_conv uri re cmdliner cohttp-lwt-unix camlzip lwt bos)
-  (preprocess (pps ppx_deriving.std ppx_yojson_conv)))
+ (name stu3)
+ (public_name fhir_compiler.parser.stu3)
+ (libraries
+  fhir_compiler.lib
+  base
+  ppx_yojson_conv
+  uri
+  re
+  cmdliner
+  cohttp-lwt-unix
+  camlzip
+  lwt
+  bos)
+ (preprocess
+  (pps ppx_deriving.std ppx_yojson_conv)))

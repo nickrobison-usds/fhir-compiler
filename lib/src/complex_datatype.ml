@@ -19,7 +19,8 @@ type t =
   | Signature
   | Coding
   | Timing
-  | Reference [@@deriving sexp]
+  | Reference
+[@@deriving sexp]
 
 let t_of_string = function
   | "Ratio" -> Ratio

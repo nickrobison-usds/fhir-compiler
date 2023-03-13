@@ -1,14 +1,8 @@
 open! Base
 
-type t = {
-  name: string;
-  typ: string;
-  multiple: bool;
-  required: bool;
-}
+type t = { name : string; typ : string; multiple : bool; required : bool }
 
-let simple_datatype_to_string =
-  fun d ->
+let simple_datatype_to_string d =
   let open Lib.Simple_datatype in
   match d with
   | Base64Binary | Code | ID | Markdown | OID | String | Xhtml -> "String"
@@ -29,7 +23,7 @@ let filter_name = function
   | s -> String.capitalize s
 
 let create name multiple typ required =
-  {name = filter_name name; multiple; typ = datatype_to_string typ; required}
+  { name = filter_name name; multiple; typ = datatype_to_string typ; required }
 
 (* Formatters *)
 
