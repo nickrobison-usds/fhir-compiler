@@ -23,7 +23,6 @@ module Make
       | _ -> raise (FileCreation "can't")
     in
     let _ = Bos.OS.Dir.create path in
-    Stdio.print_endline "Doing the parse";
     let p = P.parse () in
     let emit_resource = emit_resource backend in
     (* Handle each one *)

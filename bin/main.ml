@@ -5,7 +5,7 @@ open Cmdliner
 exception ParseError of string
 exception FileCreateion of string
 
-let src = Logs.Src.create "Fhirc" ~doc: "FHIR Compiler"
+let src = Logs.Src.create "fhirc" ~doc: "FHIR Compiler"
 
 module Log = (val Logs.src_log src : Logs.LOG)
 
@@ -24,7 +24,7 @@ let reporter ppf =
   { Logs.report = report }
 
 let info fmt s =
-  Log.warn (fun m -> m fmt s)
+  Log.info (fun m -> m fmt s)
 
 let debug fmt s =
   Log.debug (fun m -> m fmt s)

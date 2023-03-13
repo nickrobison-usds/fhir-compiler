@@ -3,7 +3,7 @@ open Lwt
 open Cohttp
 open Cohttp_lwt_unix
 
-let src = Logs.Src.create "stu3.downloader" ~doc:"STU3 Resource Downloader"
+let src = Logs.Src.create "fhirc.parser.stu3.downloader" ~doc:"STU3 Resource Downloader"
 
 module Log = (val Logs.src_log src : Logs.LOG)
 

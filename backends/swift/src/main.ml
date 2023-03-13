@@ -1,6 +1,6 @@
 open! Base
 
-let src = Logs.Src.create "backend.swift" ~doc: "Swift backend"
+let src = Logs.Src.create "fhirc.backend.swift" ~doc: "Swift backend"
 
 module Log = (val Logs.src_log src : Logs.LOG)
 
